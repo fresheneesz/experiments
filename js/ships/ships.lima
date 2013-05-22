@@ -1,0 +1,57 @@
+main:
+	var w = window.make[800,800, fps=10]	;; pretend window is defined in the (automatically inherited) standard library
+	
+	w.add[
+		ship.make['station' 400 400 size=4]
+			.target[200 200].target[600 600]
+			.click: fn this x y:
+				this.toggleSelect
+	]
+	
+
+ship = { use[drawable]
+	var: type size
+	
+	make thisfn.parent.drawable[x y rotation] type size:
+		
+		if type=="fighter":
+		 type ==="station":
+			df 1..6:
+				newShip = ship.make[14*size 0 "fighter" size]
+							  .rotateAroundPoint[self.x self.y
+			
+	
+	
+}
+
+				
+hull = { use[drawable]
+	var:thickness
+		len
+		color
+	
+	make x y rotation self.thickness self.len self.color:
+		thisfn.parent.drawable[x y rotation]
+		
+		
+	
+}
+
+
+drawable = {
+	var: x y rotation
+	make[self.x self.y self.rotation:]
+	
+	click = fn handler:
+		;; ...
+	clickOver = fn args...: ;; takes includeSubObject and handler
+		;; ...
+	
+	rotate = fn deg:
+		;; ...
+	rotateAroundPoint = fn x y deg:
+		;; ...
+		
+	draw = fn window: ;; default function
+		;; do nothing
+}
