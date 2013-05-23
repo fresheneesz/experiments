@@ -1,0 +1,3 @@
+LINKER Parameters:
+
+-lmingw32 -lSDLmain -lSDL

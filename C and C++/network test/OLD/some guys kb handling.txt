@@ -1,0 +1,78 @@
+Re: function to detect keyboard hit
+From: kenneth kahn <kenkahn at optonline dot net>
+To: gcc-help at gcc dot gnu dot org
+Date: Thu, 16 Mar 2006 10:14:20 -0500
+Subject: Re: function to detect keyboard hit
+Here's a variation of the code already given; I've tried it with success on
+AIX, Solaris, HP-UX, Linux and WinXP:
+
+/* get_char.c */
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <termios.h>
+
+int getch(void);   // wait for next keystroke (no echo)
+int getchp(void);  // check for pending keystrokes (no echo)
+
+int main () {
+  int key;
+  /*----------------------------------------------------------*
+   ! Continue waiting for keystrokes until ESC is pressed     !
+   *----------------------------------------------------------*/
+  while (!(((key = getch()) == 0x1b) && (getchp() < 0))) {
+    printf("key=%04x",key);
+    /*--------------------------------------------------------*
+     ! search for any pending keystrokes (e.g. function keys) !
+     *--------------------------------------------------------*/
+    while ((key = getchp()) > 0) {
+      printf(" %04x",key);
+    }
+    printf("\n");
+  }
+  /*----------------------------------------------------------*
+   ! ESC pressed; exit program                                !
+   *----------------------------------------------------------*/
+  printf("Escape Pressed\n");
+  return 0;
+}
+
+/*----------------------------------------------------------*
+ ! Wait for the next keypress (no echo)                     !
+ *----------------------------------------------------------*/
+int getch(void) {
+  struct termios term_settings,term_settings_saved;
+  int x;
+  if (tcgetattr(STDIN_FILENO,&term_settings))
+    return -1;
+  term_settings_saved=term_settings;
+  term_settings.c_lflag &= ~ICANON ;
+  term_settings.c_lflag &= ~ECHO ;
+  term_settings.c_cc[VMIN]=1 ;
+  term_settings.c_cc[VTIME]=0;
+  if (tcsetattr (STDIN_FILENO, TCSANOW, &term_settings) < 0)
+  x=getchar();
+  tcsetattr (STDIN_FILENO, TCSANOW, &term_settings_saved);
+  return x;
+}
+
+/*----------------------------------------------------------*
+ ! Check for pending keystrokes (no echo)                   !
+ *----------------------------------------------------------*/
+int getchp(void) {
+  struct termios term_settings,term_settings_saved;
+  char c;
+  int x;
+  if (tcgetattr(STDIN_FILENO,&term_settings))
+    return -2;
+  term_settings_saved=term_settings;
+  term_settings.c_lflag &= ~ICANON ;
+  term_settings.c_lflag &= ~ECHO ;
+  term_settings.c_cc[VMIN]=0;
+  term_settings.c_cc[VTIME]=0;
+  if (tcsetattr (STDIN_FILENO, TCSANOW, &term_settings) < 0)
+    return -2;
+  x = getchar();
+  tcsetattr (STDIN_FILENO, TCSANOW, &term_settings_saved);
+  return x;
+}
