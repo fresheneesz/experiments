@@ -1,0 +1,93 @@
+
+//more misc test code
+//code goes here
+/*
+ bla bla bla
+*/
+
+//more misc test code
+def ++ (b) = ???
+
+def lazy(func) = {
+  var cache = null;
+  return () => {
+    if(cache == null){
+      cache = func()
+    }
+    cache
+  }
+}
+
+val testLazy = lazy( => println("once"))
+
+//package syntax
+package a.b.c{
+  package d.e.f{
+    //import y.z
+    
+    class B extends C(if(4<3) 4 else 3, s equals t, 4 + 4)
+  }
+}
+
+
+class Test {
+  //import b.z
+  
+  a => a
+  a => a + 1
+  val x1 = (x,y) => x*y
+  
+  val x2 = (=> 10)
+  val y1 = { => 11}
+  test( => 12 , => 13 , 14)
+  
+  
+  
+  
+  val x3 = 123
+  val x4 = 0x3ff0ff
+  
+  val x5 = if(y < 20) 20 else 30
+  
+  val tehAwesome = {
+    val y = 10
+    if(y < 20) 20 else 30
+  }
+  
+  
+  val y2 = 456
+  val z1 = 123.456
+  
+  var d = 'single quotes'
+  var e = "double quotes"
+  
+  do 10 while(20)
+  while(20) 10
+  
+  
+  def ++ (b) = 10
+  def a1(b) = 42 + 10 * b / 11 - 5
+  
+  
+  def a2 = ???
+  def a3 = 10
+  def a4() = 10
+  def a5(b) = 10
+  def a6(b,c) = 10
+  def a7(b,c) = if(5) 10 else 20
+  def a8(b,c) = if(5) 10
+  def z2(b,c) = if(5) 10 else if(20) 30 else if (40) 50 else 60
+  
+  private def test = "asdf"
+  
+  val z3 = a(24).b(25).c.d
+  val x6 = try { asdf(asdf(123)) } catch println
+  val y3 = try asdf(123)
+  val y4 = try asdf(123) catch println
+  val y5 = try asdf() catch println
+  val y6 = try{ asdf() } catch println
+  
+}
+    
+
+

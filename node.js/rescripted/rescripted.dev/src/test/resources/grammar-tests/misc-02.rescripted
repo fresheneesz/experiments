@@ -1,0 +1,103 @@
+    
+val tehAwesome = {
+  val y = 10
+  if(y < 20) 20 else 30
+}
+
+val x = (a + b) * (c + d)
+
+val x = 
+    if(a)
+      x
+    else
+      y
+    
+def m = z + e
+
+//even more misc test code
+
+//comments
+//comment
+/*
+  comment
+*/
+
+//import syntax
+import a.b._
+import a.b.c
+
+//package syntax
+package a.b.c {}
+
+
+//variable / value syntax
+var x = 123
+val y = 123
+
+def test = {
+  //for comprehensions
+  for(a <- b) println(a)
+  for(a <- b) {println(a)}
+  for(a <- b if a > 10) println(a)
+  for(a <- b if a > 10) {println(a)}
+  for(a <- b) yield a
+  for(a <- b) yield {a}
+  for(a <- b if a > 10) yield a
+  for(a <- b if a > 10) yield {a}
+  for(
+      a <- b
+      c <- d
+      if a > 10
+      if c < 5
+      ) yield a*c
+  
+  for(
+      a <- b
+      c <- d
+      if a > 10
+      if c < 5
+      ) println(a*c)
+  
+  
+  //while loop
+  while(false){ println() }
+  while(false) println()
+  do { println() } while(false)
+  do println() while(false)
+  
+  //if, else if, else
+  if(x) x
+  if(x) x else if(y) y
+  if(x) x else if(y) y else z
+  if(x) x else z
+  
+  if(x){ x } 
+  if(x){ x } else if(y) { y }
+  if(x){ x } else if(y) { y } else { z }
+  if(x){ x } else { z }
+  
+  //partial functions
+  {
+    case null => 
+    case false => 
+    case Test(null,"test",123) =>
+    case a => a
+    case b if b < 200 =>
+      val x = b+10
+      x*2
+    case c:SomeClass =>
+    case name@Extractor(a,b,...bla) => a
+    case name@Extractor(a,b,..._) => a
+  }
+  
+  //operators
+  a == b
+  a += b
+  a ++= 3
+  a ** 42f
+  a \\ "name"
+  a = a+b
+  
+  
+
+}

@@ -1,0 +1,40 @@
+    
+//more misc test code
+import $;
+@A@B@C @Annotated(x=1,y=2,z=3) def test(a = "10", b:Number = 10, ...c) = c.mkString(",")
+
+trait Test{
+	def abc() = ???
+}
+    
+//more misc test code    
+
+import a.b.c._
+import x.y.z._
+
+def exec = {
+  2 + 3
+  a != b
+  a == b
+  x === x
+  y + z
+    
+  
+  -s
+  +5
+  !what
+  
+  0x3ff0ff == 0xEEE
+  {"a":"s"}
+  {"firstname":"Bob",lastname:varJohnson, age:6}
+  {numbers:[1,2,3,4,-5,6.0,"Bob"]}
+  {arys:[["a",{"firstname":"Bob",lastname:varJohnson, age:6}],false],isWOrks:"yes"}
+  {others:{who:"jim"}}
+  {what:[{df:"sd"},"d"],now:true,dude:null}
+}
+
+//more misc test code
+import a.b.c._
+import x.y.z._
+//code goes here
+package something.b.c{}

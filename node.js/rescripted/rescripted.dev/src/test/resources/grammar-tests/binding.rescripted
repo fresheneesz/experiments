@@ -1,0 +1,13 @@
+
+var xml = <root><child>Hello</child><child /><test><child>Hello</child></test></root>;
+
+//which syntax to use?
+
+//this is less ambiguous because # isn't used for anything else
+val directChildNodes = x#child;
+val allChildNodes = x ## child;
+val allChildNodesWithHello = x ## child # (_.text() == "Hello")
+
+val bound = #test
+val bound2 = #some#name#or#("other")
+

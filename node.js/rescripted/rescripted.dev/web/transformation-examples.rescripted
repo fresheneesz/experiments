@@ -1,0 +1,311 @@
+val x = 10
+
+x.mkString("Number(",",",")") //Number(10) Number()
+
+
+trait T{
+  def x = null
+  val y = null
+}
+
+class B(a) extends T{
+  println("B is constructing:" a)
+  
+  println("Public Val! " B.publicVal)
+}
+
+object B{
+  def main(){
+    val z = B("a").x()
+  }
+  val publicVal = "I am public"
+}
+
+{
+  name:"T",
+  type:"Trait",
+  members:{
+    x:{
+      type:"def"
+    },
+    y:{
+      type:"val"
+    }
+  }
+}
+
+function T$ctor(){
+  this.x = function(){return null}
+  this.y = null;
+}
+
+function B(a){
+  return new B$ctor(a);
+}
+
+function B$object$ctor(){
+  this.main = function(){
+    var z = B("a").x()
+  }
+  this.publicVal = "I am public";
+}
+
+var B$object$instance = null;
+function B$object(){
+  if(B$object$instance == null)
+    B$object$instance = new B$object$ctor();
+    
+  return B$object$instance;
+}
+
+function B$ctor(a){
+  T$ctor.apply(this,null)
+  
+  rescripted.println("B is constructing:", this.a)
+  
+  println("Public Val! ", B$object().publicVal);
+}
+
+
+package x{
+  def awesome() = {
+    try{
+      val r = Range(10,100000)
+       
+      for(v <- r if v%12312 && v > 23232)
+        return v;
+       
+      return -1;
+    } catch {
+      e:Any =>
+        println("Oh no! we broke it!")
+        return -2;
+    }
+  }
+  
+}
+
+this.awesome = function(){
+  var callId = newNonLocalReturnId()
+  try{
+    var catchHandler = function(e){
+      rescripted.println("Oh no! we broke it!")
+      throw new NonLocalReturn("x.awesome",callId,-2);
+    }
+    try{
+      var r = rescripted.Range(10,100000)
+      
+      r.filter(function(v){ return v%12312 && v > 23232 }).foreach(function(v){
+        throw new NonLocalReturn("x.awesome",callId,v);
+      })
+      
+      return -1;
+    } catch(e) {
+      if(e isinstanceof NonLocalReturn)
+        throw e;
+      catchHandler(e)
+    }
+  } catch(e) {
+    if(e isinstanceof NonLocalReturn && e.method == "x.awesome" && e.callId == callId)
+      return e.value;
+      
+    throw e;
+  }
+}
+//the message to show when a non local return isn't handled by the proper enclosing method:
+//"A value was returned after the body finished executing"
+
+
+
+var x = SomeClass(1,2,3)
+
+x.match{
+  case null => "it was null"
+  case v:SomeOtherClass => "SomeOtherClass!"
+  case v@SomeClass(1,_,y:Number) if y < 10 => "SomeClass(1,_,"+y+")"
+  case p@Path("a","b",c@Command("test", value)) if value.startsWith("yay") => "Value: "+value
+}
+
+$$$.PartialFunction(
+  function($1){
+    if($1 != null)
+      return null;
+    return function(){
+      return "it was null";
+    }
+  },
+  function(v){
+    if(!$$$.IsInstanceOf(v,SomeOtherClass))
+      return null;
+    return function(){
+      return "SomeOtherClass";
+    }
+  },
+  function(v){
+    var r1 = SomeClass.unapply(v);
+    if(r1 == null || r1[0] != 1 || !$$$.IsInstanceOf(r1[2],Number))
+      return null;
+      
+    var y = r1[2];
+    if(!(y < 10))
+      return null;
+      
+    return function(){
+      return "SomeClass(1,_,"+y+")";
+    }
+  },
+  function(p){
+    var r1 = Path.unapply(v);
+    if(r1 == null || r.length != 3 || r[0] != "a" || r[1] != "b")
+      return null;
+      
+    var c = r1[2];
+    var r2 = Command.unapply(c);
+    if(r2 == null || r2.length != 2 || r2[0] != "test")
+      return null;
+      
+    var value = r2[1];
+
+    if(!(value.startsWith("yay")))
+      return null;
+      
+    return function(){
+      return "Value: "+value;
+    }
+  }
+)
+
+object Array{
+  def unapply(v:Any) = if(v.isInstanceOf(Array)) v else null
+}
+
+case class Test(a, b, ...c)
+
+@implicitly_generated 
+object Test{
+  def unapply(v:Any) = 
+    if(v.isInstanceOf(Test))
+      [v.a, v.b] ++ v.c
+    else
+      null
+}
+
+case class Boring()
+
+@implicitly_generated
+object Boring{
+  def unapply(v:Any) = if(v.isInstanceOf(Boring)) v else null
+}
+
+
+
+def currentUserName = 
+  try( user <- server.currentUser() )
+    yield user.fullName
+  catch println
+  finally println("done")
+
+this.currentUserName = function(){
+  return server.currentUser()
+              .map(function(user){
+                return user.fullName;
+              })
+              .onError(function(e){
+                println(e)
+              })
+              .onComplete(function(){
+                println("done")
+              })
+}
+
+
+
+def selectedEmailAddresses:Array[Promise[String]] = 
+  try(
+    user <- selectedUsers
+    email <- server.emailForUser(user.username)
+  ) yield email
+  catch println
+  finally println("done")
+
+this.currentUserName = function(){
+  return selectedUsers
+              .flatMap(function(user){
+                return server.emailForUser(user.username).map(function(email){
+                  
+                });
+              })
+              .onError(function(e){
+                println(e)
+              })
+              .onComplete(function(){
+                println("done")
+              })
+}
+
+var catchHandler = println
+var finallyHandler = function(){ println("done") }
+try{
+  return TryPromise()
+    .OnError(catchHandler)
+    .OnComplete(finallyHandler)
+    .TryFlatMap(selectedUsers,function(promise,user){
+      return promise.TryMap(server.emailForUser(user.username),function(promise,email){
+        return email;
+      })
+    })
+} catch(e){
+  if(e isinstanceof NonLocalReturn)
+    throw e;
+  catchHandler(e)
+} finally {
+  finallyHandler()
+}
+
+for(a <- x.y.z()
+    val aSquared = a*a
+    if aSquared < 10
+    b <- lmnop()
+    ) yield a + b
+    
+var __1 = x.y.z();
+$$$.Any.FlatMap(__1,function(a){
+  var aSquared = a*a;
+  if(!(aSquared < 10))
+    return $$$.Zero(__1);
+  var __2 = lmnop();
+  return $$$.Any.Map(lmnop,function(b){
+    return a + b;
+  })
+})
+
+
+
+//enclose the entire contents of every generated source like the following:
+(function($$$){
+  $$$.RegisterPackageObject("some.package.name",$$$ObjectName$object,
+    /* <rescripted-type-descriptor> */
+    {
+    }
+    /* </rescripted-type-descriptor> */
+  );
+  $$$.RegisterObject("some.package.name",$$$ObjectName$object,
+    /* <rescripted-type-descriptor> */
+    {
+    }
+    /* </rescripted-type-descriptor> */
+  );
+  $$$.RegisterClass("some.package.name",$$$ObjectName$object,
+    /* <rescripted-type-descriptor> */
+    {
+    }
+    /* </rescripted-type-descriptor> */
+  );
+  $$$.RegisterTrait("some.package.name",$$$ObjectName$object,
+    /* <rescripted-type-descriptor> */
+    {
+    }
+    /* </rescripted-type-descriptor> */
+  );
+})(Rescripted.Runtime.$$$)
+

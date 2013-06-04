@@ -1,0 +1,22 @@
+def test = {
+ 
+  
+  val x = xml <a href={settings#url}>Go to {settings#title}</a>
+  
+  //shouldn't pass...
+//  val x = xml <a href={settings#url}>Go to {settings#title}</
+  
+  /*
+  val x = xml{{{
+            <a href={settings#url}>Go to {settings#title}</a>
+          }}}
+          
+  var message = {{{
+                  
+                  Hello {user#firstName}!
+                  
+                  We are writing to inform you that you currently have {account#credits} {#credits.pluralize(account#credits)} in your account.
+                  
+                }}}
+*/
+}

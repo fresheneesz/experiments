@@ -1,0 +1,525 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<base href="https://www.cloudkick.com/blog/2010/aug/23/writing-nodejs-native-extensions/"><div style="background:#fff;border:1px solid #999;margin:-1px -1px 0;padding:0;"><div style="background:#ddd;border:1px solid #999;color:#000;font:13px arial,sans-serif;font-weight:normal;margin:12px;padding:8px;text-align:left">This is Google&#39;s cache of <a href="http://www.cloudkick.com/blog/2010/aug/23/writing-nodejs-native-extensions/" style="text-decoration:underline;color:#00c">http://www.cloudkick.com/blog/2010/aug/23/writing-nodejs-native-extensions/</a>. It is a snapshot of the page as it appeared on May 24, 2013 02:32:42 GMT. The <a href="http://www.cloudkick.com/blog/2010/aug/23/writing-nodejs-native-extensions/" style="text-decoration:underline;color:#00c">current page</a> could have changed in the meantime. <a href="http://support.google.com/websearch/bin/answer.py?hl=en&amp;p=cached&amp;answer=1687222" style="text-decoration:underline;color:#00c">Learn more</a><br>Tip: To quickly find your search term on this page, press <b>Ctrl+F</b> or <b>⌘-F</b> (Mac) and use the find bar.<br><br><div style="float:right"><a href="http://webcache.googleusercontent.com/search?q=cache:oFt2dmLXNhcJ:www.cloudkick.com/blog/2010/aug/23/writing-nodejs-native-extensions/&amp;client=opera&amp;hl=en&amp;gl=us&strip=1" style="text-decoration:underline;color:#00c">Text-only version</a></div>
+<div>&nbsp;</div></div></div><div style="position:relative">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" class="">
+<head>
+  
+  <meta name="description" content='Simple, powerful tools for managing and monitoring cloud servers. Administer servers from multiple cloud providers all in one easy-to-use dashboard. Set up monitoring in under 60 seconds and get access to interactive graphs, diagnostic tools, and alerts that will let you know when your servers have a problem. Simple tools like tagging, colors, and sorting make it easy to keep track of all your infrastructure.
+' />
+<meta name="keywords" content='cloud, cloud computing, servers, cloudkick, infrastructure, management, cloud management, server management, monitoring, server monitoring, EC2 management
+' />
+
+<!--use chrome frame if available-->
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="/site_media/images/cloudkick_favicon.png"/>
+
+<link rel="stylesheet" type="text/css" media="screen"
+  href="/site_media/css/release/blog_entry.css?1328316514"/>
+<link rel="stylesheet" type="text/css" media="print" href="/site_media/css/print.css?1328316514"/>
+
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss/blog/" />
+
+
+<title>Writing Node.js Native Extensions | Cloudkick, manage servers better </title>
+
+<meta name="google-site-verification" content="jxxR-6JlA9ee_wluRyXUb0E1-nPOFL6JotaMQVv6jM4" />
+<script type='text/javascript'>
+  //Google Analytics
+  var _gaq = _gaq || []; 
+  _gaq.push(['_setAccount', 'UA-7523481-3']); 
+  _gaq.push(['_setDomainName', '.cloudkick.com']); 
+  _gaq.push(['_trackPageview']); 
+</script>
+</head>
+
+<body class=" _  page blog no-sidebar">
+<div id="wrapper">
+<div id="wrapper-inner">
+
+<div id="page">
+<div id="banner">
+  
+
+
+<ul id="top-links">
+  
+    
+      
+      <li><a class="login" href="/dashboard/">Login</a></li>
+      
+    
+  
+  
+    <li class="divider"></li>
+    
+      <li><a id="rax_logo" href="http://www.rackspace.com/" target="_blank"></a></li>
+    
+  
+</ul>
+ 
+  <a class="logo" href="/home"></a>
+  <div id="nav">
+  
+  
+
+  
+        <ul class="links">
+          
+          <li><a class="pricing" href="http://www.rackspace.com/cloud/cloud_hosting_products/monitoring/">Cloud Monitoring</a></li>
+          <li><a class="company" href="/about">Company</a></li>
+          <li><a class="contact" href="/contacts">Contact</a></li>
+        </ul>
+  
+
+  
+  </div><!--/#nav-->
+  
+  
+</div><!--/#banner-->
+  
+  
+  <div id="main" class="container">
+  <div id="topcontent">
+  
+  
+  </div>
+
+  <div id="sidebar">
+    
+
+  </div><!--/#sidebar-->
+
+  <div id="content">
+
+  
+  
+
+  
+<div class="blog-entry">
+<h1>Writing Node.js Native Extensions</h1>
+
+<p><a href="http://nodejs.org/">Node.js</a> is a powerful platform, and ideally everything would be written in Javascript for it. However, there are still many legacy libraries and systems you might need to interface with, meaning it might be nice to directly call them via a Node.js Extension, written in C++.</p>
+<p>All of the source code for the following examples is available on my <a href="http://github.com/pquerna/node-extension-examples">node-extension-examples github repository</a>.</p>
+<p>Much of writing a Node.js C++ extension is like writing a v8 extension;  Node.js adds a few interfaces and loads the code in, but for the most part you are exposed to raw v8 types and methods, this means <a href="http://code.google.com/apis/v8/embed.html">v8 Embedder's documentation</a> is a must read for understanding how all of the following code works.</p>
+
+<h2>Hello World in Javascript</h2>
+<p>I am going to walk through several examples of using C++, but first lets look at what a Node.js Module written in Javascript that provided an equivalent class would look like.  This isn't the simplest Hello World, nor is it over HTTP, but it's how you structure a module in Node, and its similar to the interface most C++ extensions will want to provide:</p>
+<pre><code>HelloWorldJs = function() {
+  this.m_count = 0;
+};
+
+
+HelloWorldJs.prototype.hello = function()
+{
+  this.m_count++;
+  return "Hello World";
+};
+
+exports.HelloWorldJs = HelloWorldJs;
+</code></pre>
+<p>As you can see, it uses the <code>prototype</code> to create a method on the HelloWorldJs class. The only special part for Node.js is exposing the constructor function by attaching it to the <code>exports</code> variable.</p>
+<p>To use this code from another module, you would write something like the following:</p>
+<pre><code>var helloworld = require('helloworld_js');
+var hi = new helloworld.HelloWorldJs();
+console.log(hi.hello()); // prints "Hello World" to stdout
+</code></pre>
+
+<h2>Hello World, from a C++ Extension</h2>
+<p>To start with a C++ extension, you'll need everything you needed to compile Node.js, and note that I'm working with Node.js 0.2.0. Everything here should be compatible for all future 0.2.x versions.  Once you have Node installed however, you shouldn't need anything extra for these to compile and work.</p>
+<p>The full source for this extension can be <a href="http://github.com/pquerna/node-extension-examples/blob/master/helloworld/helloworld.cc">found on github here</a>.  Before we can use any Node.js or v8, we need to include the relevant headers:</p>
+<pre><code>#include &lt;v8.h&gt;
+#include &lt;node.h&gt;
+
+using namespace node;
+using namespace v8;
+</code></pre>
+<p>In these examples I am directly using the v8 and node namespaces to make them easier to read; Most Node extension written so far are using the v8 namespace, because you are constantly wrangling v8 types, even if it is against best practices of <a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#Namespaces">Google's own C++ style guide</a>.
+
+<p>Next we declare the HelloWorld class.  It inherits from <a href="http://github.com/ry/node/blob/master/src/node_object_wrap.h#L9">the node::ObjectWrap class</a>, which provides several utilities for reference counting and passing contexts around inside v8.  Generally all of your Objects will want to inherit from ObjectWrap:</p> 
+<pre><code>class HelloWorld: ObjectWrap
+{
+private:
+  int m_count;
+public:</code></pre>
+
+After the class declaration, we have a static member function to initilize your object onto the target that Node.js will provide.  This is basically giving Node.js and v8 the instructions on how your Class is created, and what methods it will contain:
+<pre><code>static Persistent&lt;FunctionTemplate&gt; s_ct;
+  static void Init(Handle&lt;Object&gt; target)
+  {
+    HandleScope scope;
+
+    Local&lt;FunctionTemplate&gt; t = FunctionTemplate::New(New);
+
+    s_ct = Persistent&lt;FunctionTemplate&gt;::New(t);
+    s_ct-&gt;InstanceTemplate()-&gt;SetInternalFieldCount(1);
+    s_ct-&gt;SetClassName(String::NewSymbol(&quot;HelloWorld&quot;));
+
+    NODE_SET_PROTOTYPE_METHOD(s_ct, &quot;hello&quot;, Hello);
+
+    target-&gt;Set(String::NewSymbol(&quot;HelloWorld&quot;),
+                s_ct-&gt;GetFunction());
+  }</code></pre>
+<p>The target in this context is the "module", its where your extension will be loaded into.  First we create a FunctionTemplate for the <code>New</code> method I will talk about later. We also set the object to have one internal field for a baton, and give the class a name of HelloWorld.  Then using the <a href="http://github.com/ry/node/blob/v0.2.0/src/node.h#L34">NODE_SET_PROTOTYPE_METHOD macro</a> we bind the <code>hello</code> method to our class.  Finally, once we have built up this Function template we assign it to <code>HelloWorld</code> on the target, exposing the class to our users.</p>
+
+<p>The next part is just a standard C++ constructor, to contain our context for the classs:</p>
+<pre><code>HelloWorld() :
+    m_count(0)
+  {
+  }
+
+  ~HelloWorld()
+  {
+  }</code></pre>
+<p>While the C++ class constructor is simple, the next part, is the <code>::New</code> method that v8 will call when your class is being created:</p>
+<pre><code>static Handle&lt;Value&gt; New(const Arguments&amp; args)
+  {
+    HandleScope scope;
+    HelloWorld* hw = new HelloWorld();
+    hw-&gt;Wrap(args.This());
+    return args.This();
+  }</code></pre>
+<p>This is equivalent to the constructor function we used in the Javascript above.  It calls <code>new HelloWorld</code>, creating an normal C++ object, and then using the <code>Wrap</code> method inherited from <code>ObjectWrap</code>, it stores a reference to the C++ HelloWorld object inside the <code>args.This()</code> value.  Once it is wrapped up, it returns <code>args.This()</code>, which is just like what the <a href="https://developer.mozilla.org/en/JavaScript/Reference/Operators/Special_Operators/new_Operator">new operator does in Javascript</a>, returning the this as an object.</p>
+
+<p>Now that we have a object created, lets look at the <code>hello</code> method which we bound in the <code>Init</code> function above:</p>
+<pre><code>static Handle&lt;Value&gt; Hello(const Arguments&amp; args)
+  {
+    HandleScope scope;
+    HelloWorld* hw = ObjectWrap::Unwrap&lt;HelloWorld&gt;(args.This());
+    hw-&gt;m_count++;
+    Local&lt;String&gt; result = String::New(&quot;Hello World&quot;);
+    return scope.Close(result);
+  }</code></pre>
+<p>This function first uses the <code>ObjectWrap</code> template method to extract a pointer to our <code>HelloWorld</code> class, once we have that we increment the count, like in the Javascript version.  To get the string "Hello World", we create a v8 string object, and then return it while closing our local scope.</p>
+
+<p>Thats it for actual interfacing with v8, finally we need to let Node.js know how to dynamically load our code.  Because a Node.js extension can be loaded at runtime from a shared object, we need a symbol that the <a href="http://www.freebsd.org/cgi/man.cgi?query=dlsym">dlsym function</a> can find, so we do the following:</p>
+<pre><code>extern &quot;C&quot; {
+  static void init (Handle&lt;Object&gt; target)
+  {
+    HelloWorld::Init(target);
+  }
+
+  NODE_MODULE(helloworld, init);
+}</code></pre>
+<p>Because of name mangling in C++, we use extern C here, so that the symbols are easy to find with dysym.  The <code>init</code> function is the first code Node.js calls into your module with, and if you had multiple class types, you would want to initialize them all here.  The <a href="http://github.com/ry/node/blob/v0.2.0/src/node.h#L101">NODE_MODULE macro</a>, expands into a struct that node uses to store information about your module, like what version of the API it is using, and in the future will be used to help prevent crashes of modules built against incompatible APIs than the current Node.js version.</p>
+
+<p>That's it, you have a HelloWorld class written in C++, usable from Node.js!</p>
+
+<p>Node.js also includes a simple tool for building modules, <code>node-waf</code>.  If you place a <code>wscript</code> file containing instructions for how to build your extension, you can simply run <code>node-waf configure && node-waf build</code> to compile and link it against Node.js.  For this helloworld example, my wscript contained the following:</p>
+<pre><code>def set_options(opt):
+  opt.tool_options(&quot;compiler_cxx&quot;)
+
+def configure(conf):
+  conf.check_tool(&quot;compiler_cxx&quot;)
+  conf.check_tool(&quot;node_addon&quot;)
+
+def build(bld):
+  obj = bld.new_task_gen(&quot;cxx&quot;, &quot;shlib&quot;, &quot;node_addon&quot;)
+  obj.cxxflags = [&quot;-g&quot;, &quot;-D_FILE_OFFSET_BITS=64&quot;, &quot;-D_LARGEFILE_SOURCE&quot;, &quot;-Wall&quot;]
+  obj.target = &quot;helloworld&quot;
+  obj.source = &quot;helloworld.cc&quot;
+</code></pre>
+
+<h2>Hello World with Asynchronous IO</h2>
+<p>Writing a Hello World is a little too simple for a real world use case, and Node.js is all about providing asynchronous IO;  Node.js uses the <a href="http://software.schmorp.de/pkg/libeio.html">libeio library</a> internally to defer tasks that are blocking to a thread pool.  If you are interacting with a legacy C library, it is very likely you will need to use EIO to provide a callback interface to your javascript.</p>
+
+<p>The common style for this is to provide a callback to be invoked when the async operation has been completed -- you see this all over the Node.js APIs, the filesystem module being a great example of where most functions invoke a callback with the data once the operation has been completed.  v8 and Node.js itself only ever run Javascript in a single thread -- there is no mulit-threading or locking outside a few core libraries.  Like many traditional GUI frameworks, Node.js only runs Javascript inside the main thread, so anything outside the main thread should not do anything with v8 or Javascript.</p>
+
+<p>Again the source for <a href="http://github.com/pquerna/node-extension-examples/blob/master/helloworld_eio/helloworld_eio.cc">helloworld_eio.cc is on github</a>. I am going to only highlight the differences with the original HelloWorld extension, most of it remains the same, most of the changes start inside the <code>Hello</code> method:</p>
+<pre><code>static Handle&lt;Value&gt; Hello(const Arguments&amp; args)
+  {
+    HandleScope scope;
+
+    REQ_FUN_ARG(0, cb);
+
+    HelloWorldEio* hw = ObjectWrap::Unwrap&lt;HelloWorldEio&gt;(args.This());
+</code></pre>
+<p>On the entrance to <code>Hello</code>, we use a macro to get the callback function out of the first argument slot -- I'll cover arguments more in the next section, so lets ignore it for now.  Then we use the same Unwrap as earlier to extract a pointer to our class.</p>
+<pre><code>    hello_baton_t *baton = new hello_baton_t();
+    baton-&gt;hw = hw;
+    baton-&gt;increment_by = 2;
+    baton-&gt;sleep_for = 1;
+    baton-&gt;cb = Persistent&lt;Function&gt;::New(cb);</code></pre>
+<p>Here we are creating a baton structure, and filling it in with various inputs. Of note is the creation of a persistent reference to the callback function, because we want to use it beyond the scope of the current function.  If we didn't do this, we wouldn't be able to invoke the callback function later once our operation is done.</p>
+<pre><code>    hw-&gt;Ref();
+
+    eio_custom(EIO_Hello, EIO_PRI_DEFAULT, EIO_AfterHello, baton);
+    ev_ref(EV_DEFAULT_UC);
+
+    return Undefined();
+  }</code></pre>
+<p>Now we have the magic.  First we increase the reference count to the HelloWorld instance, so that it won't get garbage collected while running in another thread.  The call to the <code>eio_custom</code> function takes two functions as parameters.  The <code>EIO_Hello</code> function that will be ran in the thread pool, and the <code>EIO_AfterHello</code> function that will back in the 'main' thread.  Our baton structure is also passed into each, so they can figure out what work they are supposed to do.  We also increase the reference count to the event loop, which is important because Node.js will exit if nothing is left in the event loop.  Finally we return Undefined, since we want to do work in another thread.</p>
+
+<pre><code>static int EIO_Hello(eio_req *req)
+  {
+    hello_baton_t *baton = static_cast&lt;hello_baton_t *&gt;(req-&gt;data);
+
+    sleep(baton-&gt;sleep_for);
+
+    baton-&gt;hw-&gt;m_count += baton-&gt;increment_by;
+
+    return 0;
+  }</code></pre>
+<p>This callback will be ran inside a thread managed by libeio.  The first step is to extract the baton structure, so we have access to our context.  Next we sleep for the value of <code>baton->sleep_for</code>, which is safe to do, because we are in a thread, and not blocking all Javascript execution in the main thread. Then we do the work of incrementing the count, which if this wasn't just a simple example you would want to wrap in a Lock/Mutex.</p>
+<p>When the function above returns, libeio will notify the main thread that it has code to run on the main thread, at which point <code>EIO_AfterHello</code> will be ran in the main Node.js thread:</p>
+<pre><code>static int EIO_AfterHello(eio_req *req)
+  {
+    HandleScope scope;
+    hello_baton_t *baton = static_cast&lt;hello_baton_t *&gt;(req-&gt;data);
+    ev_unref(EV_DEFAULT_UC);
+    baton-&gt;hw-&gt;Unref();</code></pre>
+<p>On entering the function, we extract our baton structure, remove our reference to the event loop, and reduce the reference count to our <code>HelloWorld</code> object.</p>
+<pre><code>    Local&lt;Value&gt; argv[1];
+
+    argv[0] = String::New(&quot;Hello World&quot;);
+
+    TryCatch try_catch;
+
+    baton-&gt;cb-&gt;Call(Context::GetCurrent()-&gt;Global(), 1, argv);
+
+    if (try_catch.HasCaught()) {
+      FatalException(try_catch);
+    }</code></pre>
+<p>Now we build up the string to pass into the callback, and stick it into an Argument array.  Then we call the callback function with 1 parameter, checking for exceptions being thrown.</p>
+<pre><code>    baton-&gt;cb.Dispose();
+
+    delete baton;
+    return 0;
+  }</code></pre>
+<p>Now that we have ran our callback, you want to destroy of the persistent reference, and then delete the baton structure we were using.</p>
+
+<p>And thats it, to use this from Javascript, you would write something like this:</p>
+<pre><code>var helloeio = require('./helloworld_eio');
+hi = new helloeio.HelloWorldEio();
+hi.hello(function(data){
+  console.log(data);
+});</code></pre>
+<h2>Argument Passing & Parsing</h2>
+<p>One last topic you'll need to look at to go beyond HelloWorld, is dealing with arguments. In the Hello World EIO example, we used a <code>REQ_FUN_ARG</code> macro, so lets look at what it does exactly:</p>
+<pre><code>#define REQ_FUN_ARG(I, VAR)                                             \
+  if (args.Length() &lt;= (I) || !args[I]-&gt;IsFunction())                   \
+    return ThrowException(Exception::TypeError(                         \
+                  String::New(&quot;Argument &quot; #I &quot; must be a function&quot;)));  \
+  Local&lt;Function&gt; VAR = Local&lt;Function&gt;::Cast(args[I]);</code></pre>
+<p>Just like <a href="https://developer.mozilla.org/En/Core_JavaScript_1.5_Reference/Functions_and_function_scope/arguments">Javascript's argument variable</a> inside a function, v8 passes in an array of all arguments.  Because there is no strict typing, your function could be called with less or more arguments than you expected.  To be nice to your users, using a macro like this lets you check the length of the arguments array, and make sure the argument is of the correct type.  If an invalid parameter  is passed in, it wil throw a <code>TypeError</code> exception.  Most Node.js extensions so far seem to have a couple local macros for each type of arguments they expect, to simplify parsing this data out.</p>
+
+<h2>Node.js at Cloudkick</h2>
+<p>Cloudkick has traditionally used a combination of Twisted Python, C and Lua for various event services and agents.  We are currently developing some new services on top of Node.js for our next generation deployment framework.  If you are interested in helping us build it, check out our opening for a <a href="http://cloudkick.jobscore.com/jobs/cloudkick/deployment-developer/bg7z8WPY0r37CMeJe4bk1X">Deployment Engineer</a>.</p>
+
+
+<p><i>Cloudkick provides award-winning cloud server monitoring and management SaaS tools, built from the ground up to support modern APIs and the elastic nature of the cloud. Thousands are already using Cloudkick for performance monitoring and fault detection to trend visualization and graphing. To receive the same benefits <a href="https://www.cloudkick.com/developers/">start on our free forever developer plan</a></i>.<p>
+
+<div class="border-top mar-n-10 pad-v-10 mar-s-30">
+  <em class="date small floatR text-light">Posted by Paul Querna on August 23, 2010</em>
+  <a href="http://twitter.com/home?status=RT @cloudkick Writing Node.js Native Extensions www.cloudkick.com/blog" class="border-none" target="_blank"><img src="/site_media/images/tweet.png" alt="Retweet this!"/></a>
+</div>
+
+
+</div>
+
+  
+  </div><!--/#content-->
+
+</div><!--/#main-->
+</div><!--/#page-->
+
+
+
+<div class="clear"></div>
+
+<div id="loading"></div>
+
+</div><!--/#wrapper-inner-->
+
+
+
+</div><!--/#wrapper-->
+
+<div id="footer-wrapper">
+<div id="footer">
+
+
+  
+
+
+
+  <table width="960">
+    <tr>
+      <td class="pad-e-30">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/about">About us</a></li>
+          <li><a href="http://rackertalent.com/san-francisco/" target="_blank">Careers</a></li>
+        </ul>
+      </td>
+      <td class="pad-e-30">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/terms">Terms &amp; conditions</a></li>
+          <li><a href="/privacy">Privacy policy</a></li>
+          <li><a href="/security">Security</a></li>
+        </ul>
+      </td>
+      <td>
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="/contact">Contact us</a></li>
+          <li><a href="http://twitter.com/cloudkick" target="_blank">@cloudkick</a></li>
+        </ul>
+      </td>
+      <td class="text-right">
+        <div id="copyright-wrapper">
+        <div id="feedback-footer">I wish this page would<form method="post" action="/feedback" style="display:inline;"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='b3eeda0ef79705de6083034312aafd93' /></div><input type="text" onfocus="javascript:this.value='';" name="feedback" value="graph bandwidth..." /></form></div>
+          <div id="copyright">Cloudkick &copy; 2011</div>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+
+
+
+</div></div><!--/#footer, #footer-wrapper -->
+
+<div id="marketing">
+
+
+  <!-- Sales Chat  --> 
+  
+  <script src='/site_media/js/sales_chat.js?1328316514'
+    type='text/javascript'></script>
+  
+   
+  <!-- SalesForce Google Analytics  --> 
+  <script type="text/javascript" src="https://lct.salesforce.com/sfga.js"></      script>
+  <script type="text/javascript">__sfga();</script>
+
+  <!-- Adroll --> 
+  <script type="text/javascript">
+    adroll_adv_id = "H2VH27PMO5DOPGWWWM5S55";
+    adroll_pix_id = "G2I5SF4ZNZG67GK3ZBPW4X";
+    (function () {    var oldonload = window.onload;
+      window.onload = function(){
+        __adroll_loaded=true;
+        var scr = document.createElement("script");
+        var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+        scr.setAttribute('async', 'true');
+        scr.type = "text/javascript";
+        scr.src = host + "/j/roundtrip.js";
+        document.documentElement.firstChild.appendChild(scr);
+        if(oldonload){oldonload()}};
+    }());
+  </script>
+  
+
+</div>
+
+<div id="preload">
+
+
+</div>
+
+
+
+
+
+
+  <!-- SCRIPT BASE -->
+  <script type="text/javascript">
+    function gettext(msgid) {
+      return msgid;
+    }
+    function interpolate(fmt, obj, named) {
+      if (named) {
+        return fmt.replace(/%\(\w+\)s/g, function(match){return String(obj[match.slice(2,-2)])});
+      } else {
+        return fmt.replace(/%s/g, function(match){return String(obj.shift())});
+      }
+    }
+    var deferred_javascript = [];
+  </script>
+  <script type="text/javascript" src="/site_media/js/ck.min.js?1328316514"></script>
+  
+    
+      
+    
+  
+  <script type="text/javascript">
+    var account_name = "";
+  </script>
+  <!-- closure base -->
+  
+  <script type="text/javascript">
+    deferred_javascript.push("base.js");
+    deferred_javascript.push("common.js");
+    deferred_javascript.push("analytics.js");
+    deferred_javascript.push("eventtracking.js");
+  </script>
+  <!-- END SCRIPT BASE -->
+
+<script type="text/javascript" src="/site_media/js/jquery.fancybox-1.2.6.pack.js?1328316514"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+  $('a.zoom').fancybox({overlayOpacity:0.7, overlayColor:"#000000"});
+});
+</script>
+
+
+<script type="text/javascript">
+
+  //Stop production from breaking when we accidentally
+  //leave a console log in the code somewhere.
+  if (!window.console) { window.console = {}; }
+  if (!console.log) { console.log = function () {} }
+  if (!console.dir) { console.dir = function () {} }
+  if (!console.warn) { console.warn = function () {} }
+  if (!console.info) { console.info = function () {} }
+  if (!console.error) { console.error = function () {} }
+
+  function defer_js () {
+
+    var element, i, path;
+    
+
+
+    for (i = 0; i < deferred_javascript.length; i++) {
+      path = deferred_javascript[i];
+      element = document.createElement("script");
+      element.type = "text/javascript";
+      if (path.search("static.olark") !== -1) {
+        console.log(path);
+        element.onload = function () {
+          window.setTimeout(function() {
+            wc_init();
+          }, 1000);
+        }
+      }
+      if (path.search("http") !== -1) {
+        element.src = path;
+      } else if (path.charAt(0) === "/") {
+        
+        element.src = path + "?1328316514";
+        
+      } else {
+        
+        element.src = "/site_media/js/" + path + "?1328316514";
+        
+      }
+      document.body.appendChild(element);
+    }
+  }
+  if (window.addEventListener) { //Firefox, Safari
+    window.addEventListener('load', defer_js, 'false');
+  } else if (window.attachEvent) { //IE
+    window.attachEvent('onload', defer_js);
+  } else {
+    window.onload = defer_js;
+  }
+</script>
+</body>
+</html>

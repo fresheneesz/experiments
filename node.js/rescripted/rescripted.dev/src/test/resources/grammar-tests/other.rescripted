@@ -1,0 +1,58 @@
+def test = {
+  //what do these mean?
+  
+  Container(#test 100)(
+    Button("Click").click( => println("clicked...") )
+    Button("Click").click( => println("clicked...") )  
+  )
+  
+  Container(id:#test width: 100)(
+    Button(label: "Click").click{ println("clicked...") }
+    Button(label: "Click").click{ println("clicked...") }
+  )
+  
+  /*
+  Container({id:#test width: 100})
+
+  
+
+  val x = (a: 1 b:2)
+  
+  val json = a: 1;
+             b: 2;
+             c: 3;
+             d: 4;
+  
+  loop{
+    println("hello")
+  }
+  
+  loop{ =>
+    println("hello")
+  }
+  
+  loop => {
+    println("hello")
+  }
+  
+  val x = (a,b){
+    
+          }
+          
+          
+  var x = [a,b,c]
+  x[1,2,3]
+  x([1,2,3])
+
+  
+  
+  var x = 10;
+  
+  (a || b).toString();
+  
+  Container{id:#test width:100}(
+    
+  )
+  */
+  
+}

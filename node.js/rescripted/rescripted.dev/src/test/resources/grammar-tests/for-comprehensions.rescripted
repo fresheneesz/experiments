@@ -1,0 +1,16 @@
+
+//parse examples go here
+def x = for(i <- test) yield i
+
+
+def y = for(i <- abc;
+            j <- defg;
+            if i < 10
+            ) yield i
+
+def z = for(i <- abc
+            j <- defg
+            if i > j
+            ) yield i
+
+def a = for(item,index <- ["a","b","c"]) println("Item: " item "Index: " index)

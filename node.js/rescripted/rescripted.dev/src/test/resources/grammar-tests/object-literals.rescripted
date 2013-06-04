@@ -1,0 +1,57 @@
+var varJohnson = "kilroy";
+var heya = {args:[["a",{"firstname":"Bob",lastname:varJohnson, age:6}],false],isWOrks:"yes"}
+val jsonTestObject = {
+  """
+  some
+  key
+  name
+  """: "test"
+  "some key name":"test"
+	a: "test"
+	b: "test"
+	c: "test"
+	d: "test"
+	e: [1,2,3,]
+	font-family: "Tahoma"
+	Font-family:/*test*/ "Tahoma" //fix the :/* so that it isn't lexed as a single token
+}
+
+//def test(a-b:Test)
+
+
+var testDescription = {
+	rescripted:{
+		"$$":{type:"package"}
+		collections:{
+			"$$":{type:"package"}
+			Seq:{
+				"$$type":"class"
+				
+			}
+		}
+		lang:{
+			"$$":{type:"package"}
+			Ast$:{
+				"$$":{type:"object"}
+				TripleQuotedString:{
+					"$$":{type:"case class"}
+					"$$constructor":[{str:{"$$":{type:"Dynamic"}}}]
+					isExpression:{"$$":{type:"Bool"}}
+				}
+			}
+		}
+		xml:/* test */ {
+			"$$":{type:"package"}
+			
+		}
+		ui/* */:{
+			"$$":{type:"package"}
+			
+		}
+		jsonrpc://test
+		{
+			"$$":{type:"package"}
+			
+		}
+	}
+}

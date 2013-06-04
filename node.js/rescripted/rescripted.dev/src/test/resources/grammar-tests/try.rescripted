@@ -1,0 +1,21 @@
+def test = {
+  
+  try throw "boo" catch println
+  
+	try error("not gonna happen")
+	try error("wha?") catch println
+	try error("wha?") catch println finally println("done")
+	
+
+  try{ x() } catch {e => null}
+  try{ x() } catch {e => null} finally { println("done") }
+  try{ x() } finally { println("done") }
+  try x() catch errorHandler
+  try x() catch something.buildErrorHandler() finally println("done")
+  try x() finally println("done")
+
+  try(person <- server.getPeople() settings <- server.loadSettings(person.username))
+    yield {person:person settings: settings}
+  catch println
+  finally println("Settings Loaded")
+}

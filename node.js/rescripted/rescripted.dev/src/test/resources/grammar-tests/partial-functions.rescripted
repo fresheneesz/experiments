@@ -1,0 +1,15 @@
+object Test{
+	var pf = {
+		case null => "it was null" 
+		case false => "it was false"
+		case Test(null,"test",123) => "a match!"
+		case b if b < 200 =>
+			val x = b+10
+			x + 2
+		case b:Bob =>
+		case a => a
+		case name@Extractor(a,b,...bla) => a
+		case name@Extractor(a,another@Extractor(`x`,y:Number!,"z"),...bla) => a
+		case _ => ""
+	}
+}

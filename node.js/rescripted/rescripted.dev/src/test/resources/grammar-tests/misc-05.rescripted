@@ -1,0 +1,223 @@
+
+
+//misc test code    
+import rescripted.xml.dom._
+import rescripted.collections._
+
+package samplecode{
+  //expressions / execution statements aren't allowed in packages, but the error message isn't very good...
+  //println("Hola");
+  
+	//def someTestMethod(x){ x = 10; }
+	//x = 1;
+	//val x = 1
+	//val x = 1
+	//x = 1;
+	def test = 'hi'
+	
+	class Bob{
+		def method = "hola"
+	}
+	class Joe extends Bob{
+		override def method = "HOLA!"
+		@Doc() def xml = {<a href="#">My god, what have I done?</a>}
+		@Doc() val publicVal = "A Public Val"
+		def infix(arg) = "Joe infix "+arg+" success!"
+	};
+	
+	case class Test(a,b,c)
+	{
+		def x = "yay"
+		
+		def thisShouldBe5Plus20 = 5 +/* 10*/ 20
+		def testing = 5+// 10
+		              20
+	}
+	
+	object obj{
+    println("[[[[a" +  
+            "--b--" +
+            "c]]]]"
+            )
+    
+    println(Joe() infix "test")
+    println(Joe() == "test again")
+    println("Using: "+Test(1,2,3).a)
+    println(Test(1,2,3).x())
+    
+    println(test())
+    println(Bob().method())
+    println(Joe().method())
+    println(Joe().publicVal)
+    
+	}
+	object Obj{ 
+		def main = println("say hello to my little object: "+this) //using string concatenation
+		def translate(word language) = println("Couldn't translate " word " to " language) //using multiple parameters to println method 
+	}
+	
+	val x = {
+		val y = 10
+		y + 5 * 10 / 2 - 30
+	}
+	
+	val y = List("a","b","c")
+	val z = List("d","e","f")
+	object AnotherTest{
+    for(
+      a <- y;
+      b <- z;
+      if a != "b";
+      if b != "e";
+      ) println(a+b)
+      
+    println(for(a <- y) yield a+"1")
+    
+    println(x)
+    $("body").append(Joe().xml())
+    
+    try error("not gonna happen")
+    try error("wha?") catch println
+    try error("wha?") catch println finally println("done")
+    
+    var varJohnson = "kilroy";
+    var heya = {arys:[["a",{"firstname":"Bob",lastname:varJohnson, age:6}],false],isWOrks:"yes"}
+    val jsonTestObject = {
+      a: "test"
+      b: "test"
+      c: "test"
+      d: "test"
+      e: [1,2,3,]
+    }
+    def test = {
+      println(Json.toString(jsonTestObject))
+      println(heya.isWOrks)
+    }
+  
+    var pf = {
+      case null => "it was null" 
+      case false => "it was false"
+      case Test(null,"test",123) => "a match!"
+      case b if b < 200 =>
+        val x = b+10
+        x*2
+      case b:Bob =>
+      case a => a
+      //case name@Extractor(a,b,...bla) => a
+    }
+    
+    def testPf = println("Partial Function: "+pf(Test(null,"test",123)))
+    
+    //def someMethod(a:List[String])
+    
+    var obj = Object()
+    
+    try throw "this was thrown!" catch println
+    
+    val lambda = x => 10*x
+    def testLambda = println("Lambda test:" + lambda(2))
+    
+    var x2 = 10
+  
+    
+    private def testArgs(a,b = 20,c:String = "asdf"){
+      println(List(a,b,c));
+    }
+  
+    def miscTests = {
+      testArgs(1)
+      testArgs(1,2)
+      testArgs(1,2,"string")    
+      try testArgs() catch e => println("required args constraint worked:"+e)
+      try testArgs(1,2,3) catch e => println("type constraint worked:"+e)
+      try testArgs(1,2,"string",3) catch e => println("argument length constraint worked:"+e)
+    }
+    
+    def testVarArgs(a = "10", b:Number = 10, ...c:Number) = c.mkString(",")
+    def runVarArgTests = {
+      println("testVarArgs:"+testVarArgs())
+      println("testVarArgs:"+testVarArgs(1))
+      println("testVarArgs:"+testVarArgs(1,2))
+      println("testVarArgs:"+testVarArgs(1,2,3))
+      println("testVarArgs:"+testVarArgs(1,2,3,4))
+      println("testVarArgs:"+testVarArgs(1,2,3,4,5))
+      try println("testVarArgs:"+testVarArgs(1,2,3,"4",5)) catch e => println("var arg type constraint worked: "+e)
+      
+      println("testVarArgs(c = List(1,2,3)):"+testVarArgs(c = List(1,2,3)))
+    }
+    
+    def testDelimiters1(
+      a
+      b
+      c
+      ) = [a,b,c,];
+    
+    def testDelimiters2(
+      a;
+      b;
+      c;
+      ) = [a;b;c;];
+    
+    def testDelimiters3(a,b,c) = [
+       a
+      ,b
+      ,c
+      ];
+    
+    def testNamed(
+      a = "A default"
+      b = "B default"
+      c
+      ) = println("testNamed: "+List(a,b,c))
+    
+    def runTestNamed = testNamed(a = "A named",c = "C named")
+  }
+	
+	package a.b{
+		package c.d{
+			class E
+		}
+	}
+}
+
+object x{
+  
+  var testDescription = {
+    rescripted:{
+      "$$":{type:"package"}
+      collections:{
+        "$$":{type:"package"}
+        Seq:{
+          "$$type":"class"
+          
+        }
+      }
+      lang:{
+        "$$":{type:"package"}
+        Ast$:{
+          "$$":{type:"object"}
+          TripleQuotedString:{
+            "$$":{type:"case class"}
+            "$$constructor":[{str:{"$$":{type:"Dynamic"}}}]
+            isExpression:{"$$":{type:"Bool"}}
+          }
+        }
+      }
+      xml:{
+        "$$":{type:"package"}
+        
+      }
+      ui:{
+        "$$":{type:"package"}
+        
+      }
+      jsonrpc:{
+        "$$":{type:"package"}
+        
+      }
+    }
+  }
+
+}
+
+
