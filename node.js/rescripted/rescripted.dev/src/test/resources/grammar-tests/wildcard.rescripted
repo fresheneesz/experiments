@@ -1,0 +1,22 @@
+import a.b._
+import c.d
+
+def test = {
+  //val _ = "test"
+  val _1 = "test"
+  
+  val x = "x"
+
+  x.match{
+    case "x" => println("x")
+    case _ => println("Something else")
+  }
+
+  
+  val lambda = _ + _
+
+  println(lambda(1 2))  
+}
+
+def test(__:Number,_s:String) = "test"
+//def test(_:Number,_s:String) = "test"

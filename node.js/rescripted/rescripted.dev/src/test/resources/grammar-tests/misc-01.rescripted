@@ -1,0 +1,34 @@
+//old test rig
+import rescripted.collections._
+import rescripted.xml.dom._
+import rescripted.lang._
+
+object Test{
+	def allCode(type) = 
+		for(tag <- Seq.fromArray(document.getElementsByTagName("script")) if tag.type == type) yield tag.innerHTML
+	
+	def codeById(id) = document.getElementById(id).innerHTML
+	
+	def main(){
+		//runParseTests()
+		runTestCode()
+		val x = {
+		 val y = 10
+		 null
+		}
+	}
+	
+	def runTestCode(){
+		var transformer = RescriptedToJavascript()
+		for(code <- allCode(type = 'text/rescripted-test')){
+			transformer.run(code,{printGeneratedCode:false,printSymbolTable:true})
+		}
+	}
+	
+	def runParseTests(){
+		var transformer = RescriptedToJavascript()
+		for(code <- allCode('text/rescripted-parse').map(transformer.transform) )
+			jQuery("body").append( <pre>{code}</pre> )
+	}
+	
+}

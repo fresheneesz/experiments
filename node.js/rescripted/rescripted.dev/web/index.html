@@ -1,0 +1,98 @@
+<html>
+  <head>
+  	<script type="text/javascript" src="es5-shim.min.js"></script>
+    <script type="text/javascript" src="antlr3-all.js"></script>
+    <script type="text/javascript" src="RescriptedLexer.js"></script>
+    <script type="text/javascript" src="RescriptedParser.js"></script>
+
+    <script type="text/javascript" src="RescriptedUtil.js"></script>
+    <script type="text/javascript" src="TestWalkers.js"></script>
+    <script type="text/javascript">
+		function test(){
+			var elements = document.getElementsByTagName("script");
+			var scriptTags = [];
+			for(var i=0;i<elements.length;i++)
+				scriptTags.push(elements[i])
+			var sources = scriptTags.filter(function(tag){return tag.type == 'text/rescripted-parse'}).map(function(tag){return tag.innerHTML});
+			
+			sources.forEach(function(source){
+				var r = RescriptedParse(source)
+				walk(r.tree,source)
+			})
+			
+			printCode()
+		}
+    </script>
+    <script type='text/rescripted-parse'>
+		
+		def ++ (b) = ???
+		case class A(a,b,c) extends B(a,b,c){}
+    </script>
+    <script type='text/rescripted-parse-x'>
+		def test = {
+			val x = 1 + 2 * 3 ** !4 + 5
+			val y = 1 + 2 - 3 + 4 * 5 / 6 % 7
+			val z = 1 + 2
+		}
+		</script>
+    <script type='text/rescripted-parse-x'>
+    import Import.Simple
+    import Import.Wild._
+    import native Import.Native
+    
+    package Package1{
+    	def Package1Method1 = ???
+    	def Package1Method2 = ???
+    }
+
+    package Package2{}
+
+    @Docs(1,2,3) @Misc() @Misc2 private object Obj1{
+    	def Obj1Method1 = ???
+    	def Obj1Method2 = ???
+    }
+
+    native case object Obj2
+
+    final class Class1{
+    	override def Class1Method1 = ???
+    	def Class1Method2 = ???    
+    }
+
+    case class Class2
+
+    trait Trait1{
+    	def Trait1Method1 = ???
+    	def Trait1Method2 = ???
+    }
+    
+    trait Trait2
+
+    def Method1 = ???
+    def Method2 = null
+    val Val1 = null
+    var Var1 = null
+    
+    package a{
+    	import AnotherImport
+    	val a = null
+    	package b.c{
+    		val x = null
+    	}
+    }
+    
+
+    </script>
+    <script type='text/rescripted-parse-x'>
+    @test val x = 5 * 6
+    public var y = 20
+    def ++() = 10
+    
+    def test1(){}
+    
+    val z = (15.0).toString()
+    </script>
+  </head>
+  <body onload="test()">
+  </body>
+</html>

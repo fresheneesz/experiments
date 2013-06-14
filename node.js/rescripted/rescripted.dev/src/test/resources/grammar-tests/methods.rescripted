@@ -1,0 +1,59 @@
+
+//method declarations
+	
+@Doc() def xml = {<a href="#">My god, what have I done?</a>}
+
+@Doc private native def test = ???
+
+def test = allCode(type:"text/rescripted-test")
+def test2(settings) = allCode(:settings)
+def printLine(...values:Any) = println(...values)
+def a = 10
+def a() = 10
+def a(b) = 42 + 10 * b / 11 - 5
+def a() = {20}
+def a(){
+  
+  return;
+}
+def a(){
+  return 10; 
+}
+def methodCalls{
+	//method calls
+	println("[[[[a")
+	println("[[[[a" +  
+					"--b--" +
+					"c]]]]"
+					)
+	
+	println(Joe() infix "test")
+	println(Joe() == "test again")
+	println("Using new: "+Test(1,2,3).a)
+	println(Test(1,2,3).x())
+	
+	
+	val x = a + b * c + d
+	val y = (a + b) * (c + d)
+
+}
+
+def allCode(type:String! = "text/rescripted") = ???
+
+def x(s:String!, i:Number, ...other):String = s.format(other) ** i
+def println(...values:Any):Any = ???
+
+class X{
+  def x = this.a.b.c
+  def y = self.a.b.c
+}
+
+//test the different forms of method bodies
+def x = println()
+def y = ???
+
+//z1 and z2 should generate nearly identical ASTs
+def z1 = {println() null}
+def z2{println()}
+
+def While(condition:Func[Bool])(body:Func[Any]):Any = while(condition()) body()

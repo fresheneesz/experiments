@@ -1,0 +1,42 @@
+
+def testArray():Array[String]! = ["asdf"]
+
+def test{
+  //literals: numbers, booleans, strings, json, xml
+  "asdf\"asdf"
+  'asdf\'asdf'
+  0
+  0.0
+  
+  0xFF00FF
+  
+  '''
+  testing
+  '''
+  
+  true
+  false
+  null
+  
+  [a b c d e]
+
+  
+  val x = ( 0 * 0 + 0 )
+  
+  val y = {
+    name: "Person"
+    age: 74
+    height: 1.4
+  }
+  
+  val z = {}
+  
+  
+  <asdf id={this # id} />
+  <abc>123</abc>
+  
+  var f = """
+          "triple quotes"
+          
+          """  
+}

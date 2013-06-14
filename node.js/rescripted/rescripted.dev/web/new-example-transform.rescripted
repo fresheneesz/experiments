@@ -1,0 +1,23 @@
+
+
+val x = 20
+
+val y = 30
+
+def main() = println("hola:" x * y)
+
+(function($$$){
+
+  function $RootPackage$package$ctor(){
+    this.x = 20
+    this.y = 30
+    
+    this.main = function(){
+      println("hola:", this.x * this.y)
+    }
+  }
+  
+$$$.RegisterPackageObject("",{},$RootPackage$package$ctor)
+
+})($$$)
+

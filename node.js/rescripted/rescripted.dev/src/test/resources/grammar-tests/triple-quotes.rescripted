@@ -1,0 +1,13 @@
+
+val a = "asdf'asdf"
+val b = 'asdf\'asdf'
+val x = """testing "abc" """
+
+var f = """
+        "triple quotes"
+       
+        """
+var g = '''
+        "triple quotes"
+        
+        '''

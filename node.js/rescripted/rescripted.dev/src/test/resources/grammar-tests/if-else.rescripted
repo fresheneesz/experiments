@@ -1,0 +1,17 @@
+val ifTest = {
+  
+  //if, else if, else
+  if(x) x
+  if(x) x else if(y) y
+  if(x) x else if(y) y else z
+  if(x) x else z
+  
+  if(x){ x } 
+  if(x){ x } else if(y) { y }
+  if(x){ x } else if(y) { y } else { z }
+  if(x){ x } else { z }
+ 
+  if(x) if(y) z else a else b
+  if(x) if(y) z else a
+  
+}

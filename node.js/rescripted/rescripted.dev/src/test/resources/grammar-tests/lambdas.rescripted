@@ -1,0 +1,61 @@
+
+val test = a => a
+val test = (a) => a
+val test = () => a
+val test = => a
+
+//val x = {
+//  val y = 10;
+//  return y * 2;
+//}
+//val $$x = 10
+
+def misc = {
+  val x = test{ name =>
+    println("name:" name)
+  }
+  
+  val y = lazy {
+    println("y")
+  }
+  
+  val y1 = lazy {
+    println("y1")
+    println("y1")
+  }
+  
+  val z = _.length
+  val a = _ + _
+  val a1 = 1 + _
+  val a2 = _ + 2
+  val b = !_
+  val c = a.b(1,3,_).c(_,_)
+  val c1 = _.b(1,3,_).c(_,_)
+
+  val lambdas = [
+    {=> println()};
+    {a => a+1};
+    {(a,b) => a+b};
+    {_ + _};
+    {_.length};
+    (=> null );
+    (a => null);
+    ((a,b) => null);
+    (_ + _);
+    (_.length);
+  ]
+  println(lambdas.length)
+}
+
+
+def testNonLocalReturn() = {
+  
+  val items = Range(1,10)
+  
+  items.forEach{item =>
+    if(item == 100)
+      return item * 100
+  }
+  
+  return 0
+}

@@ -1,0 +1,23 @@
+val test = {
+  
+  //xml
+  <t>{a # b # c}&copy;</t>
+  <a a="a"/>
+  <c><w><t></t>dfdfdf &lt; &lt;sdfds</w><b/>ssas</c>
+  <k x="1" d={abc}></k>
+
+  <b c="giraffe" d={a} />
+  
+  {<qweqwqe 
+    sdffds="1" 
+    sdffds="dsdfsdfs"/>}
+
+    
+  //these should work!
+  <test>asdf <!-- comments --> </test>
+  
+  {<q>sdf<![CDATA[this is the data]]></q>}
+  {<r><![CDATA[this is the data]]></r>}
+  {<a g='sdfdsf'><!-- comments --> sdf<![CDATA[this is the data]]></a>}
+
+}

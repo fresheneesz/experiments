@@ -1,0 +1,55 @@
+
+//class syntax
+class A
+class A{}
+class A()
+class A(){}
+class A(a,b,c)
+class A(a,b,c){}
+class A(a,b,c) extends B
+class A(a,b,c) extends B with C
+class A(a,b,c) extends B{}
+class A(a,b,c) extends B()
+class A(a,b,c) extends B(){}
+class A(a,b,c) extends B(a,b,c)
+class A(a,b,c) extends B(a,b,c){}
+case class A
+case class A{}
+case class A()
+case class A(){}
+case class A(a,b,c)
+case class A(a,b,c){}
+case class A(a,b,c) extends B
+case class A(a,b,c) extends B with C
+case class A(a,b,c) extends B{}
+case class A(a,b,c) extends B()
+case class A(a,b,c) extends B(){}
+case class A(a,b,c) extends B(a,b,c)
+case class A(a,b,c) extends B(a,b,c){}
+
+//object syntax
+object A
+object A{}
+object A extends B
+object A extends B with C
+object A extends B{}
+object A extends B()
+object A extends B(){}
+object A extends B(a,b,c)
+object A extends B(a,b,c){}
+case object A
+case object A{}
+case object A extends B
+case object A extends B with C
+case object A extends B{}
+case object A extends B()
+case object A extends B(){}
+case object A extends B(a,b,c)
+case object A extends B(a,b,c){}
+
+//trait syntax
+trait A
+trait A{}
+trait A extends B
+trait A extends B with C
+trait A extends B{}
