@@ -1,0 +1,41 @@
+<html>
+	<body>
+		<div>hi</div>
+		
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			var x = 'moo';
+			
+			function getPageHeight() {
+		        function getUpdatedHeight(element, originalMaxHeight) {
+		            var top = element.offset().top;
+		            if(typeof(top)!='undefined'){
+		                var height = element.outerHeight();
+		                return Math.max(originalMaxHeight, top+height);
+		            } else {
+		                return originalMaxHeight;
+		            }
+		        }
+		
+		        var maxhrel = 0;
+		        //if( ! $.browser.msie) {
+		         //   maxhrel = $("html").outerHeight(); //get the page height
+		        //} else {
+		            // in IE and chrome, the outerHeight of the html and body tags seem to be more like the window height
+		            $('body').children(":not(script)").each(function(){ //get all body children
+		                maxhrel=getUpdatedHeight($(this), maxhrel);
+		            });
+		        //}
+		
+		        var atotoffset=0;  // absolute element offset position from the top
+		        $.each($('body *:not(script)'),function(){   //get all elements
+		            if ($(this).css('position') == 'absolute' && $(this).css('display') !== 'none'){ // absolute and displayed?
+		                atotoffset=getUpdatedHeight($(this), atotoffset);
+		            }
+		        });
+		
+		        return Math.max(maxhrel, atotoffset);
+		    }
+		</script>
+	</body>
+</html>
