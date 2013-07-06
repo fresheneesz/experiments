@@ -1,0 +1,115 @@
+<body>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js" type="text/javascript"></script>
+<script>	
+	write([bar()]);	
+	write(
+		css(".fancy{ \
+				border: 1px solid black; \
+			 }\
+			 \
+			 .popup {   \
+				top: 20%; margin:auto; \
+				padding-top: 10; padding-bottom: 10; \
+				text-align: center; \
+			 }"));
+	
+	write(dialog(align("left",div("test")), "lightblue"))
+	
+	function bar() {
+		var elements = [input("Username"),input("Password"),button("Sign Up", function() {
+			write(dialog(div("test"), "lightblue"))
+		})];
+		return align('right', div(elements));
+	}
+	
+	function dialog(text, color) {
+		var closeButton = button("x", function() {
+			e.remove();
+		});
+			closeButton.css({position: "absolute", top: -7, right: 0});
+			
+		var e = div([text,closeButton], "fancy popup");
+		e.css({position: 'absolute', width: "70%", zIndex: 10, 
+			   backgroundColor: color});
+		return align('center', e);
+	}	
+	
+	function button(label/*, [classes], click*/) {
+		if(arguments.length === 2) {
+			var classes = undefined;
+			var click = arguments[1];
+		} else {
+			var classes = arguments[1];
+			var click = arguments[2];
+		}
+		
+		var e = div(label, classes);
+		e.css({display: "inline-block", cursor: "pointer"});
+		e.click(click);
+		return e;
+	}
+
+	function align(type, e) {
+		if(e.css("position") === "absolute") {
+			if(type=='center') 
+				var css = {marginLeft: "auto", marginRight: "auto", left: 0, right: 0};
+			else if(type==='left') 
+				var css = {left: 0, right: "auto"};
+			else if(type==='right') 
+				var css = {left: "auto", right: 0};
+			
+			e.css(css);
+			
+		} else {			
+			var inner = div(e.children());
+			inner.css({position: "absolute"});
+			e.html(inner);
+			align(type, inner);
+			/*
+			if(type=='center') 
+				var css = {marginLeft: "auto", marginRight: "auto"};
+			else if(type==='left') 
+				var css = {marginLeft: 0, marginRight: "auto"};
+			else if(type==='right') 
+				var css = {marginLeft: "auto", marginRight: 0};
+				
+			css.display = "inline-block";
+				
+			var inner = div(e.children());
+			e.html(inner);
+			inner.css(css);
+			*/
+		}
+		
+		return e;
+	}
+	function inline(e) {
+		e.css({inline: "auto", marginRight: 0});
+		return e;
+	}
+	
+	function input(value, classes) {
+		if(!classes) classes = '';
+		var e = $('<input class="'+classes+'">');
+		e.val(value);
+		return e;
+	}
+	function div(contents, classes) {
+		if(!classes) classes = '';
+		if(!(contents instanceof Array)) contents = [contents];
+		
+		var e = $('<div class="'+classes+'"></div>');	
+		contents.forEach(function(v) {
+			e.append(v);
+		});
+		return e;
+	}	
+	function css(stylesheet) {
+		return $("<style type='text/css'>"+stylesheet+"</style>");
+	}	
+	function write(elements) {
+		$('body').append(elements);
+		return elements;
+	}	
+</script>
