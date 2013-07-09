@@ -1,0 +1,284 @@
+<p><strong>Current Version</strong>: 0.2.2</p>
+
+
+<p><strong>Used by</strong>: <ac:link><ri:page ri:content-title="Authenticated Monetization API" /></ac:link></p>
+
+
+<h2>Summary</h2>
+
+
+<p>An API format intended to be &quot;sub-classed&quot; by other APIs.</p>
+
+<ul>
+	
+<li><span style="color: rgb(51,102,255);">Blue items</span><span style="color: rgb(0,128,0);">&nbsp;</span>are standard parameters,&nbsp;</li>
+	
+<li><span style="color: rgb(128,0,0);">brown items&nbsp;</span><span style="color: rgb(0,0,0);">are constants, and&nbsp;</span></li>
+	
+<li><span style="color: rgb(255,0,0);">bright-red items&nbsp;</span><span style="color: rgb(0,0,0);">are items that are defined by an implementing API.</span>&nbsp;</li>
+</ul>
+
+
+
+<p>Any field not marked <span style="color: rgb(128,128,128);">(Optional)&nbsp;</span>is required.</p>
+
+
+<h2>URL Convention</h2>
+
+
+<p><span style="color: rgb(51,102,255);">&lt;protocol&gt;</span><span style="color: rgb(0,0,0);">://</span><span style="color: rgb(51,102,255);">&lt;host&gt;</span><span style="color: rgb(0,0,0);">/</span><span style="color: rgb(51,102,255);">&lt;optional-path&gt;</span>/<span style="color: rgb(255,0,0);">&lt;API-Name&gt;</span>/<span style="color: rgb(51,102,255);">&lt;version&gt;</span><span style="color: rgb(0,0,0);">/</span><span style="color: rgb(51,102,255);">&lt;optional-parameters&gt;</span></p>
+
+<ul>
+	
+<li><span style="color: rgb(51,102,255);">&lt;optional-path&gt;</span>&nbsp;- any path off the host can be used as long as the path ends with the correct conventions described above</li>
+	
+<li><span style="color: rgb(51,102,255);">&lt;version&gt;</span>&nbsp;- Value that only contains numbers and periods, corresponding to the version of the implementing spec it is built to (<strong>not</strong> the version of this API Interface).</li>
+	
+<li><span style="color: rgb(51,102,255);">&lt;optional-parameters&gt;</span> <span style="color: rgb(0,0,0);">- API-specific parameters (can be multiple</span> <span style="color: rgb(0,0,0);"><a href="http://en.wikipedia.org/wiki/URI_scheme#Generic_syntax">segments</a></span><span style="color: rgb(0,0,0);">).</span></li>
+</ul>
+
+
+
+<p>Examples:</p>
+
+<ul>
+	
+<li><a href="http://mog-fb-qa.playdom.com/itemTransaction/1.0">http://mog-fb-qa.playdom.com/itemTransaction/1.0</a></li>
+	
+<li><a href="http://snf-qa01-external.vm.dfw.playdom.com/snc/public/labsgamethree/playdom/itemTransaction/2.0">http://snf-qa01-external.vm.dfw.playdom.com/snc/public/labsgamethree/playdom/itemTransaction/2.0</a></li>
+	
+<li><a href="http://payments.playdom.com/api/imaginaryApi/1.0.23/get/data/foo">http://payments.playdom.com/api/imaginaryApi/1.0.23/get/data/foo</a></li>
+</ul>
+
+
+
+<h2>Request</h2>
+
+
+<p>The HTTP method is POST and the request is UTF-8 encoded. All HTTP headers set by the request should be ignored.</p>
+
+
+<h4>Request Body</h4>
+
+
+
+
+<p>The request body is a stringified JSON object&nbsp;containing the items to transact and any other relevant data,&nbsp;as follows:</p>
+
+<table>
+<tbody>
+
+<tr>
+
+<th>
+<p> key </p></th>
+
+<th>
+<p> value&nbsp; <br class="atl-forced-newline" /> </p></th>
+</tr>
+
+<tr>
+
+<td>
+<p> <span style="color: rgb(128,0,0);">&quot;system&quot;</span>: <br class="atl-forced-newline" /> </p></td>
+
+<td>
+<p> The name of the system, service, or program that is making the request. This can be created by whoever is writing the requester end. (When the auth service becomes available, this should probably be the same as the identifier used by the auth service, if the auth service uses something like that.) <br class="atl-forced-newline" /> </p></td>
+</tr>
+
+<tr>
+
+<td>
+<p> <span style="color: rgb(128,0,0);">&quot;requester&quot;</span>: <br class="atl-forced-newline" /> </p></td>
+
+<td>
+<p> Who is making the request.&nbsp; <br class="atl-forced-newline" /></p>
+
+<ul>
+	
+<li>If it is the service itself making the request, please use the same value as the is put for the&nbsp;<span style="color: rgb(128,0,0);">&quot;system&quot;</span>&nbsp;key.</li>
+	
+<li>If it is an individual, use a username of some kind - probably an ldap username.</li>
+</ul>
+</td>
+</tr>
+
+<tr>
+
+<td>
+<p> <span style="color: rgb(128,0,0);">&quot;comment&quot;:</span><br class="atl-forced-newline" /> </p></td>
+
+<td>
+<p> <span style="color: rgb(153,153,153);">(Optional)</span>&nbsp;Some description as to why the request is being made. <br class="atl-forced-newline" /> </p></td>
+</tr>
+
+<tr>
+
+<td>
+<p> <span style="color: rgb(128,0,0);">&quot;info&quot;:</span><br class="atl-forced-newline" /> </p></td>
+
+<td>
+<p> <span style="color: rgb(153,153,153);">(Optional)</span>&nbsp;JSON object that contains extra information about the request. This is the only place where custom parameters are added in the top-level request object; all undefined keys are reserved for future use. <br class="atl-forced-newline" /> </p></td>
+</tr>
+
+<tr>
+
+<td>
+<p> <span style="color: rgb(128,0,0);">&quot;t&quot;:</span><br class="atl-forced-newline" /> </p></td>
+
+<td>
+<p> Number of seconds from the epoch (unix timestamp in seconds) at the time this message was constructed. </p></td>
+</tr>
+
+<tr>
+
+<td>
+<p> &nbsp;. </p></td>
+
+<td>
+<p>&nbsp;</p></td>
+</tr>
+
+<tr>
+
+<td>
+<p> &nbsp;. </p></td>
+
+<td>
+<p> <span style="color: rgb(153,153,153);">More members of&nbsp;</span><span style="color: rgb(51,102,255);">&lt;</span><span style="color: rgb(51,102,255);">jsonRequest</span><span style="color: rgb(51,102,255);">&gt;&nbsp;</span><span style="color: rgb(153,153,153);">defined by sub-apis</span> </p></td>
+</tr>
+
+<tr>
+
+<td>
+<p> &nbsp;. </p></td>
+
+<td>
+<p>&nbsp;</p></td>
+</tr>
+</tbody></table>
+
+
+
+<h4>Example Request Body</h4>
+
+
+<ul>
+	
+<li><ac:macro ac:name="noformat"><ac:plain-text-body><![CDATA[{"system":"virals","requester":"btetrud","t":1344385436,"user":"c28k3fjj9","items":{"category":"item","id":"12","amount":1}}]]></ac:plain-text-body></ac:macro></li>
+</ul>
+
+
+
+<h2>Response</h2>
+
+
+<p>The response body is UTF-8 encoded.</p>
+
+
+<p>The response body,&nbsp;<span style="color: rgb(51,102,255);">&lt;</span><span style="color: rgb(51,102,255);">jsonResponse</span><span style="color: rgb(51,102,255);">&gt;</span>, is a JSON object with the following members when:</p>
+
+<ul>
+	
+<li>The request was successfully completed
+	
+<ul>
+		
+<li><span style="color: rgb(128,0,0);">&quot;result&quot;:	&quot;success&quot;</span></li>
+	</ul>
+	</li>
+	
+<li>The request was not completed
+	
+<ul>
+		
+<li><span style="color: rgb(128,0,0);">&quot;result&quot;:</span>&nbsp;<span style="color: rgb(51,102,255);">&lt;failure-type&gt;</span>&nbsp;-&nbsp;is one of the following:
+		
+<ul>
+			
+<li><span style="color: rgb(128,0,0);">&quot;temporaryFailure&quot;</span>&nbsp;indicates the transaction should be retried</li>
+			
+<li><span style="color: rgb(128,0,0);">&quot;permenantFailure&quot;</span> indicates the transaction should not be retried</li>
+		</ul>
+		</li>
+		
+<li><span style="color: rgb(128,0,0);">&quot;message&quot;:&nbsp;</span><span style="color: rgb(51,102,255);">&lt;error-message&gt;</span><span style="color: rgb(0,128,0);">&nbsp;</span>- a safe but informative error message indicating the problem(s) in the request. This is optional if a <span style="color: rgb(128,0,0);">&quot;type&quot;</span> is given.</li>
+		
+<li><span style="color: rgb(128,0,0);">&quot;type&quot;:</span>&nbsp;<span style="color: rgb(51,102,255);">&lt;error-type&gt;</span><span style="color: rgb(0,0,0);">&nbsp;-</span><span style="color: rgb(51,102,255);">&nbsp;</span>The name of the error. This is intended to be a short name, in camel-case, of an error that might need special handling. This is optional if a <span style="color: rgb(128,0,0);">&quot;message&quot;</span> is given.
+		
+<ul>
+			
+<li>The following cases have standard types:
+			
+<ul>
+				
+<li><span style="color: rgb(128,0,0);">&quot;missingParameter&quot;</span> <span style="color: rgb(0,0,0);">- the request is missing a required parameter.</span> <span style="color: rgb(128,128,128);">Justification: letting implementations send invalid requests can cause problems down the line.</span></li>
+				
+<li><span style="color: rgb(128,0,0);">&quot;badRequest&quot;</span>&nbsp;- the request has all the required parameters, but is invalid. <span style="color: rgb(128,128,128);">Examples of this include invalid argument types, or unexpected values.</span></li>
+				
+<li>Sub-APIs can define other standard error-types for certain cases.</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		
+<li><span style="color: rgb(128,0,0);">&quot;info&quot;:</span>&nbsp;<span style="color: rgb(128,128,128);">(Optional)</span>&nbsp;JSON object that contains extra information about the error.</li>
+		
+<li><span style="color: rgb(0,0,0);">Sub-APIs can add additional members to</span><span style="color: rgb(51,102,255);">&nbsp;&lt;</span><span style="color: rgb(51,102,255);">jsonResponse</span><span style="color: rgb(51,102,255);">&gt;</span></li>
+	</ul>
+	</li>
+</ul>
+
+
+
+<p>Appropriate HTTP response codes can be returned in addition to (but not instead of) the request body, but the requester should determine success or failure from the &quot;result&quot; field. If the result is malformed, the result is treated like a&nbsp;<span style="color: rgb(128,0,0);">&quot;temporaryFailure&quot;</span> response.</p>
+
+
+
+<h2><span style="color: rgb(136,136,136);">Change Log</span></h2>
+
+
+<p>Note: all items in the change log are reflected in the canonical documentation above.</p>
+
+
+<h4>v0.2.2</h4>
+
+
+<ul>
+	
+<li>Clarified the use of HTTP response codes as being optional, but ignored by the requester.</li>
+</ul>
+
+
+
+<h4>v0.2.1</h4>
+
+
+<ul>
+	
+<li>Updated URL Convention to include optional-parameters</li>
+</ul>
+
+
+
+<h4>v0.2</h4>
+
+
+<ul>
+	
+<li>Made either message or type required (must have 1).&nbsp;</li>
+	
+<li>Require that HTTP headers be ignored.</li>
+	
+<li>Added a &quot;missingParameter&quot; error type</li>
+</ul>
+
+
+
+<h4>v0.1</h4>
+
+
+<ul>
+	
+<li>Created from the <ac:link><ri:page ri:content-title="Item Transaction API" /><ac:link-body>Item Transaction API v1.0</ac:link-body></ac:link></li>
+</ul>
