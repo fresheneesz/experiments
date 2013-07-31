@@ -1,0 +1,26 @@
+
+TODO:
+    Mixin support
+      support for mixins on classes: class X extends Y with A with B with C
+      support for mixins at call site: var a = new Z() with A with B with C
+    "import" statement
+      add aliasing and multiple import statement support:
+        import a.b.{C => _,_}
+        import a.b.{C,D => E}
+        import a.b.{C => D}
+  Class Library:
+    Improve Map and List types, maybe add some more
+    Option, Some, None typed
+    String extensions to treat them as a collection of characters
+    Http library
+  Infrastructure:
+    Unit tests
+      validate various language features being added
+      validate that existing javascript libraries don't get transformed (jquery, jquery-min, prototype, etc)
+      validate class library features
+    Client Distribution:
+      "automatic" script - implicitly evaluates embedded tags
+      "explicit" script - scripts won't be evaluated until requested (rescripted.script.evaluateEmbeddedScriptTags();)
+    Preprocessor Distribution:
+      J2EE filter using the above library
+

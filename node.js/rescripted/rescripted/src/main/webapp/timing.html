@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+  <head>
+    <title>rescripted timing</title>
+    
+    <link rel="stylesheet" type="text/css" href="lib/ui/ui.css" />
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+    <!--
+    <script type="text/javascript" src="rescripted-complete.js"></script>
+    -->
+    <script type="text/javascript" src="rescripted.js"></script>
+    <script type="text/rescripted" src="collections.re.js"></script>
+    <script type="text/rescripted" src="xml.re.js"></script>
+    
+    <script type="text/rescripted" src="timing.re.js"></script>
+  </head>
+  <body>
+    
+    <input type="button" class='run' value="xml" onclick="_root_.Test.xmlTest()" />
+    <input type="button" class='run' value="constructors" onclick="_root_.Test.constructorTest()" />
+    <div id="test"></div>
+  </body>
+</html>

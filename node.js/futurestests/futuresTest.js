@@ -4,10 +4,13 @@ var Fiber = require('fibers');
 var Future = require('fibers/future');
 var fs = require('fs');
 
+var error = new Error;
+Error.captureStackTrace(error, exports);
+log(error.stack);
 Fiber(function() {
 	
     log("\n");
-    
+
 	// normal return
 	var future1 = new Future;
 	setTimeout(function() {
@@ -72,7 +75,25 @@ Fiber(function() {
 		}
 	});
 	
+	// exception (stack trace) tests
 	
+	try {
+		var f = new Future;
+		process.nextTick(function() {
+			f.throw(new Error("test"));	
+		});
+		f.wait();
+		
+	} catch(e) {
+		var baseStack = e.stack.split('\n');
+		var cobbledTogetherStack = 
+							e.stack.split('\n')
+							.concat('    - - - - -')
+							.concat(error.stack.split('\n').slice(1))
+							.join('\n');
+		
+		log(cobbledTogetherStack);
+	}
 	
 	
 }).run();
