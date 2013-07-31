@@ -27,10 +27,26 @@ var cryptor = {
 
 var c = new cryptor.sym('rc4', 'base64');
 
+var x = c.enc('key', 'test');
+var y = c.enc('key2', 'test2');
+var z = c.enc('key3', 'test3');
+console.log(x);
+console.log(y);
+console.log(z);
+
+var d = new cryptor.sym('rc4', 'base64');
+
+// testing if my implementation can really be used like this (using one encryption object to encrypt many separate things)
+console.log(d.dec('key', x));
+console.log(d.dec('key3', z));
+console.log(d.dec('key2', y));
+
+
 /*var enc = c.createCipher('rc4', 'test');
 var dec = c.createDecipher('rc4', 'test');
 var code = enc.update('testing', 'utf8', 'base64')
 code += enc.final('base64');*/
+
 
 var code = c.enc('test', 'testing');
 console.log(code);

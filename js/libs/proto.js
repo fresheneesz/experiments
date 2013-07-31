@@ -67,7 +67,8 @@ function proto(objectProperties) {
 		if(mixins !== undefined) {
 			for(var n = mixins.length-1; n>=0; n--) { // loop through mixins backwards
 				if(mixins[n].constructoid !== undefined) {	 // apparently 'constructor' is some special member in javascript - was fucking up my shit
-					constructor = mixins[n].constructoid;	// use one if its parents constructors
+					// use one if its parents constructors
+					constructor = mixins[n].constructoid; // todo: need to make this flexible and deterministic - its bad to just use a random parent constructor
 				}
 			}
 		}
