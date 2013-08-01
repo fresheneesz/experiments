@@ -1,12 +1,10 @@
+Tell me a little about what you generally do for <whatever company you're working for>?
 
+How did you find this opportunity? 
 
-Tell me a little about what you generally do for S&P? 
+What interests you about <what we do>?
 
-How did you find this opportunity? Are you looking specifically to move to the bay area?
-
-What interests you about social gaming?
-
-What kind of things are you interested in or interested in working on at playdom?
+What kind of things are you interested in or interested in working on at <this company>?
 
 
 Puzzle questions
@@ -18,13 +16,10 @@ Puzzle questions
 
 * Whats your opinion on the importance of speed vs scalability vs maintainability
 
-Your resume says you have experience with C++ - when did you use c++?
+Your resume says you have experience with <some language/technology> - when did you use <that language/technology>?
 * If you have a string, can you print out all the letters, except that every 3rd letter should be "X" instead of whatever letter is in the string, and every 5th letter should be "Y".
 
-
-* Whats the difference between TCP and UDP
-
-We have documentation for certain services we have, but often we have games ask us how to do things that are already in our documentation. What kind of things can you think of that might help make this less of a problem? Feel free to bounce ideas off of me or ask me questions about our current process. 
+We have documentation for certain services we have, but often we have games ask us how to do things that are already in our documentation. What kind of things can you think of that might help make this less of a problem? Feel free to bounce ideas off of me or ask me questions about our current process.
 
 [describe our $frame as it stands and ask what might be good things to test to optimize our page.]
 
