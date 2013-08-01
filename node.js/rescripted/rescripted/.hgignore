@@ -1,0 +1,8 @@
+syntax: glob
+
+target/
+project/boot/
+lib_managed/
+src/main/webapp/rescripted-min.js
+src/main/webapp/rescripted-complete.js
+src/main/webapp/lib/*.js

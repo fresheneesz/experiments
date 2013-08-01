@@ -1,0 +1,28 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'uninstall',
+1 verbose cli   'fibers' ]
+2 info using npm@1.2.24
+3 info using node@v0.10.9
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 info H:\billy's file\code\tests\node.js\modulesTest\node_modules\fibers unbuild
+6 verbose read json H:\billy's file\code\tests\node.js\modulesTest\node_modules\fibers\package.json
+7 info preuninstall fibers@1.0.1
+8 info uninstall fibers@1.0.1
+9 verbose true,H:\billy's file\code\tests\node.js\modulesTest\node_modules,H:\billy's file\code\tests\node.js\modulesTest\node_modules unbuild fibers@1.0.1
+10 info postuninstall fibers@1.0.1
+11 error Error: ENOTEMPTY, rmdir 'H:\billy's file\code\tests\node.js\modulesTest\node_modules\fibers\bin\win32-ia32-v8-3.14'
+12 error If you need help, you may report this log at:
+12 error     <http://github.com/isaacs/npm/issues>
+12 error or email it to:
+12 error     <npm-@googlegroups.com>
+13 error System Windows_NT 6.1.7600
+14 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "uninstall" "fibers"
+15 error cwd H:\billy's file\code\tests\node.js\modulesTest
+16 error node -v v0.10.9
+17 error npm -v 1.2.24
+18 error path H:\billy's file\code\tests\node.js\modulesTest\node_modules\fibers\bin\win32-ia32-v8-3.14
+19 error code ENOTEMPTY
+20 error errno 53
+21 verbose exit [ 53, true ]

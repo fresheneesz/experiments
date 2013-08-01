@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+  <head>
+    <title>rescripted console</title>
+    <style type="text/css">
+    html,body{
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      padding: 0px;
+      background: #777;
+    }
+    .println,.error{
+      white-space: pre;
+    }
+    .error{
+      color: red;
+    }
+    
+    #output{
+      position: absolute;
+      height: 195px;
+      bottom: 5px;
+      left: 5px;
+      right: 125px;
+      overflow: scroll;
+      border: 1px solid #333;
+      background: #FFF;
+    }
+    
+    #controls{
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      width: 120px;
+      height: 200px;
+    }
+    
+    #controls input{
+      width: 115px;
+    }
+    
+    #input{
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 210px;
+    }
+    
+    #transformed{
+      display: none;
+    }
+    
+    .split #input{
+      right: 50%;
+      padding-right: 4px;
+    }
+    
+    .split #transformed{
+      display: block;
+      position: absolute;
+      right: 5px;
+      left: 50%;
+      padding-left: 4px;
+      top: 5px;
+      bottom: 210px;
+    }
+    
+    textarea{
+      position: relative;
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      padding: 0px;
+      border: 1px solid #333;
+      background: #FFF;
+    }
+    
+    </style>
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+    <!--
+    <script type="text/javascript" src="rescripted.js"></script>
+    <script type="text/rescripted" src="collections.re.js"></script>
+    <script type="text/rescripted" src="xml.re.js"></script>
+    <script type="text/rescripted" src="rescripted-1.0/rescripted-parser.re.js"></script>
+    <script type="text/rescripted" src="rescripted-1.0/rescripted-ast.re.js"></script>
+    <script type="text/rescripted" src="rescripted-1.0/rescripted-grammar.re.js"></script>
+    <script type="text/rescripted" src="rescripted-1.0/rescripted-javascript.re.js"></script>
+    -->
+    <script type="text/javascript" src="dist/rescripted-complete.js"></script>
+    <script type="text/rescripted">
+    //rescripted-settings:{"legacy":true}
+    error.customHandler = {message =>
+      $("<div class='error' />").text("Error: "+message).appendTo($("#output"))
+      throw new Error(""+message)
+    }
+    println.customHandler = {message =>
+      $("<div class='println' />").text(""+message).appendTo($("#output"))
+    }
+    
+    object Console{
+      
+      def session(name,value){
+        try{
+          if(arguments.length == 2){
+            window.localStorage.setItem(name,value)
+            return value;
+          } else {
+            return window.localStorage.getItem(name)
+          }
+        } catch(e) {
+          return value;
+        }
+      }
+      
+      var sessionId = 0
+      
+      def run(){
+        //try to allow previous runs to be garbage collected
+        try{ delete rescripted.console["session"+sessionId] } catch(e) { }
+        
+        //run the code in a brand new package to avoid conflicts with previous runs
+        __rescripted.script.run("package rescripted.console.session"+(++sessionId)+"{"+$("#input textarea").val()+"\n}")
+      }
+      
+      def main(){
+        $("#input textarea").keyup({event=>
+          if(event.ctrlKey && (event.keyCode == 10 || event.keyCode == 13))
+            return run()
+          $("#transformed textarea").val(
+            __rescripted.script.transform(
+              session("rescripted:console:code",$(this).val()),
+              {forDisplay:true,debug:true}
+            )
+          )
+        }).val(session("rescripted:console:code") || "")
+        $(".run").click(run)
+      }
+    }
+    </script>
+  </head>
+  <body class='split'>
+    <div id='input'>
+      <textarea></textarea>
+    </div>
+    <div id='transformed'>
+      <textarea></textarea>
+    </div>
+    <div id="output"></div>
+    <div id="controls">
+      <input type="button" class='run' value="run (ctrl+enter)" />
+      <input type="button" onclick="$('#output').empty()" value="clear console" />
+      <input type="button" onclick="$('body').toggleClass('split')" value="toggle split" />
+    </div>
+  </body>
+</html>

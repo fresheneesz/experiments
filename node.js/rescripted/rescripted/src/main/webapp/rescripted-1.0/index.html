@@ -1,0 +1,614 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+  <head>
+    <title>rescripted</title>
+    
+    <script type="text/javascript" src="../jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../rescripted-complete.js"></script>
+    
+    <script type="text/rescripted" src="rescripted-parser.re.js"></script>
+    <script type="text/rescripted" src="rescripted-ast.re.js"></script>
+    <script type="text/rescripted" src="rescripted-grammar.re.js"></script>
+    <script type="text/rescripted" src="rescripted-javascript.re.js"></script>
+    <!--
+    <script type="text/javascript" src="/rescripted.js"></script>
+    <script type="text/rescripted" src="/collections.re.js"></script>
+    <script type="text/rescripted" src="/xml.re.js"></script>    
+    -->
+    <script type="text/rescripted">
+    import rescripted.collections._
+    import rescripted.xml.dom._
+    import rescripted.lang._
+    
+    object Test{
+      def allCode(type) = 
+        for(tag <- Seq.fromArray(document.getElementsByTagName("script")) if tag.type == type) yield tag.innerHTML
+      
+      def codeById(id) = document.getElementById(id).innerHTML
+      
+      def main(){
+        //runParseTests()
+        runTestCode()
+      }
+      
+      def runTestCode(){
+        var transformer = RescriptedToJavascript()
+        for(code <- allCode(type = 'text/rescripted-test')){
+          transformer.run(code,{printGeneratedCode:false,printSymbolTable:true})
+        }
+      }
+      
+      def runParseTests(){
+        var transformer = RescriptedToJavascript()
+        for(code <- allCode('text/rescripted-parse'))
+          $("body") append <pre>{ transformer.transform(code) }</pre>
+      }
+      
+    }
+
+    </script>
+    
+    <script type="text/rescripted-test">
+    
+    import rescripted.xml.dom._
+    import rescripted.collections._
+    
+    package samplecode{
+      //def someTestMethod(x){ x = 10; }
+      //x = 1;
+      //val x = 1
+      //val x = 1
+      //x = 1;
+      def test = 'hi';
+      
+      class Bob{
+        def method = "hola"
+      }
+      class Joe extends Bob{
+        override def method = "HOLA!"
+        @Doc() def xml = {<a href="#">My god, what have I done?</a>}
+        @Doc() val publicVal = "A Public Val"
+        def infix(arg) = "Joe infix "+arg+" success!"
+      }
+      
+      case class Test(a,b,c){
+        def x = "yay"
+      }
+      
+      println("[[[[a" +  
+              "--b--" +
+              "c]]]]"
+              )
+      
+      println(Joe() infix "test")
+      println(Joe() == "test again")
+      println("Using new: "+new Test(1,2,3).a)
+      println(Test(1,2,3).x())
+      
+      object Obj{ 
+        def main = println("say hello to my little object: "+self)
+      }
+      
+      println(test())
+      println(Bob().method())
+      println(Joe().method())
+      println(new Joe().publicVal)
+      
+      val x = {
+        val y = 10
+        y + 5 * 10 / 2 - 30
+      }
+      
+      val y = List("a","b","c")
+      val z = List("d","e","f")
+      
+      for(
+        a <- y
+        b <- z
+        if a != "b"
+        if b != "e"
+        ) println(a+b)
+        
+      println(for(a <- y) yield a+"1")
+      
+      println(x)
+      $("body").append(Joe().xml())
+      $("body") append (<ol>{for(i <- Range(1,10)) yield <li>squared: {i*i}</li> }</ol>)
+      
+      try error("not gonna happen")
+      try error("wha?") catch println
+      try error("wha?") catch println finally println("done")
+      
+      var varJohnson = "kilroy";
+      var heya = {arys:[["a",{"firstname":"Bob",lastname:varJohnson, age:6}],false],isWOrks:"yes"}
+      val jsonTestObject = {
+        a: "test"
+        b: "test"
+        c: "test"
+        d: "test"
+        e: [1,2,3,]
+      }
+      println(Json.toString(jsonTestObject))
+      println(heya.isWOrks)
+  
+      var pf = {
+        case null => "it was null" 
+        case false => "it was false"
+        case Test(null,"test",123) => "a match!"
+        case b if b < 200 =>
+          val x = b+10
+          x*2
+        case b:Bob =>
+        case a => a
+        //case name@Extractor(a,b,bla@_*) => a
+      }
+      
+      println("Partial Function: "+pf(Test(null,"test",123)))
+      
+      //def someMethod(a:List[String])
+      
+      var obj = new Object
+      delete obj
+      
+      try throw "this was thrown!" catch println
+      
+      val lambda = x => 10*x
+      println("Lambda test:" + lambda(2))
+      
+      var x2 = 10
+  
+      
+      private def testArgs(a,b = 20,c:String = "asdf"){
+        println(List(a,b,c));
+      }
+  
+      testArgs(1)
+      testArgs(1,2)
+      testArgs(1,2,"string")    
+      try testArgs() catch e => println("required args constraint worked:"+e)
+      try testArgs(1,2,3) catch e => println("type constraint worked:"+e)
+      try testArgs(1,2,"string",3) catch e => println("argument length constraint worked:"+e)
+      
+      
+      def testVarArgs(a = "10", b:Number = 10, c:Number*) = c.mkString(",")
+      println("testVarArgs:"+testVarArgs())
+      println("testVarArgs:"+testVarArgs(1))
+      println("testVarArgs:"+testVarArgs(1,2))
+      println("testVarArgs:"+testVarArgs(1,2,3))
+      println("testVarArgs:"+testVarArgs(1,2,3,4))
+      println("testVarArgs:"+testVarArgs(1,2,3,4,5))
+      try println("testVarArgs:"+testVarArgs(1,2,3,"4",5)) catch e => println("var arg type constraint worked: "+e)
+      
+      println("testVarArgs(c = List(1,2,3)):"+testVarArgs(c = List(1,2,3)))
+      
+      def testDelimiters1(
+        a
+        b
+        c
+        ) = [a,b,c,];
+      
+      def testDelimiters2(
+        a;
+        b;
+        c;
+        ) = [a;b;c;];
+      
+      def testDelimiters3(a,b,c) = [
+         a
+        ,b
+        ,c
+        ];
+      
+      def testNamed(
+        a = "A default"
+        b = "B default"
+        c
+        ) = println("testNamed: "+List(a,b,c))
+      
+      testNamed(a = "A named",c = "C named")
+      
+      package a.b{
+        package c.d{
+          class E
+        }
+      }
+    }
+    
+    var testDescription = {
+      rescripted:{
+        $$:{type:"package"}
+        collections:{
+          $$:{type:"package"}
+          Seq:{
+            "$$type":"class"
+            
+          }
+        }
+        lang:{
+          $$:{type:"package"}
+          Ast$:{
+            $$:{type:"object"}
+            TripleQuotedString:{
+              $$:{type:"case class"}
+              $$constructor:[{str:{$$:{type:"Dynamic"}}}]
+              isExpression:{$$:{type:"Bool"}}
+            }
+          }
+        }
+        xml:{
+          $$:{type:"package"}
+          
+        }
+        ui:{
+          $$:{type:"package"}
+          
+        }
+        jsonrpc:{
+          $$:{type:"package"}
+          
+        }
+      }
+    }
+    
+    
+    </script>
+    
+    
+    <script type="text/rescripted-parse">
+    import $;
+    @A@B@C @Annotated(x=1,y=2,z=3) def test(a = "10", b:Number = 10, c:*) = c.mkString(",")
+    
+    trait Test{
+      def abc() = ???
+    }
+    
+    
+    </script>
+    
+    <script type="text/rescripted-parse">
+    
+    -
+    
+    import a.b.c._
+    import x.y.z._
+    2 + 3
+    a != b
+    a == b
+    x === x
+    y + z
+      
+    
+    -s
+    +5
+    !what
+    
+    0x3ff0ff == 0xEEE
+    {"a":"s"}
+    {"firstname":"Bob",lastname:varJohnson, age:6}
+    {numbers:[1,2,3,4,-5,6.0,"Bob"]}
+    {arys:[["a",{"firstname":"Bob",lastname:varJohnson, age:6}],false],isWOrks:"yes"}
+    {others:{who:"jim"}}
+    {what:[{df:"sd"},"d"],now:true,dude:null}
+    
+    </script>
+    <script type="text/rescripted-parse">
+    import a.b.c._
+    import x.y.z._
+    //code goes here
+    package something.b.c{}
+    </script>
+    <script type="text/rescripted-parse">
+    //code goes here
+    /*
+     bla bla bla
+    */
+    </script>
+    <script type="text/rescripted-parse">
+    
+    def lazy(func) = {
+      var cache = null;
+      return () => {
+        if(cache == null){
+          cache = func()
+        }
+        cache
+      }
+    }
+    
+    val testLazy = lazy( ()=> println("once"))
+    
+    //package syntax
+    package a.b.c{
+      package d.e.f{
+        import y.z
+        
+        class Test{
+          self =>
+          import b.z
+          
+          a => a
+          a => a + 1
+          val x = (x,y) => x*y
+          
+          //val x = (=> 10)
+          //val y = { => 11}
+          //test( => 12 , => 13 , 14)
+          
+          
+          
+          
+          val x = 123
+          val x = 0x3ff0ff
+          
+          val x = if(y < 20) 20 else 30
+          
+          val tehAwesome = {
+            val y = 10
+            if(y < 20) 20 else 30
+          }
+          
+          val y = 456
+          
+          val z = 123.456
+          
+          var d = 'single quotes'
+          var e = "double quotes"
+          var f = """
+          "triple quotes"
+          
+          """
+          
+          do 10 while(20)
+          
+          while(20) 10
+          
+          
+          def ++ (b) = 10
+            
+        
+          def a(b) = 42 + 10 * b / 11 - 5
+          
+          
+          def a = ???
+          def a = 10
+          def a() = 10
+          def a(b) = 10
+          def a(b,c) = 10
+          def a(b,c) = if(5) 10 else 20
+          def a(b,c) = if(5) 10
+          def z(b,c) = if(5) 10 else if(20) 30 else if (40) 50 else 60
+          
+          private def test = "asdf"
+          
+          val z = a(24).b(25).c.d
+          val x = try { asdf(asdf(123)) } catch println
+          val y = try asdf(123)
+          val y = try asdf(123) catch println
+          val y = try asdf() catch println
+          val y = try{ asdf() } catch println
+      
+        }
+        
+        class B extends C(if(4<3) 4 else 3, s equals t, 4 + 4)
+      }
+    }
+    </script>
+    <script type="text/rescripted-parse">
+    
+    
+    
+    val tehAwesome = {
+      val y = 10
+      if(y < 20) 20 else 30
+    }
+  
+    val x = (a + b) * (c + d)
+    
+    
+    //figure out this weirdness, it gets parsed as if it means this:
+    //  if(a) x
+    //  else y.z(+)
+    //  e
+    //maybe change it by altering whitespace rules in binary expressions to disallow newlines
+    if(a)
+      x
+    else
+      y
+    
+    z + e
+    
+    
+    
+
+    
+    </script>
+    <script type="text/rescripted-parse">
+
+//comments
+//comment
+/*
+  comment
+*/
+
+//import syntax
+import a.b._
+import a.b.c
+
+//package syntax
+package a.b.c {}
+
+//class syntax
+class A
+class A{}
+class A()
+class A(){}
+class A(a,b,c)
+class A(a,b,c){}
+class A(a,b,c) extends B
+class A(a,b,c) extends B{}
+class A(a,b,c) extends B()
+class A(a,b,c) extends B(){}
+class A(a,b,c) extends B(a,b,c)
+class A(a,b,c) extends B(a,b,c){}
+case class A
+case class A{}
+case class A()
+case class A(){}
+case class A(a,b,c)
+case class A(a,b,c){}
+case class A(a,b,c) extends B
+case class A(a,b,c) extends B{}
+case class A(a,b,c) extends B()
+case class A(a,b,c) extends B(){}
+case class A(a,b,c) extends B(a,b,c)
+case class A(a,b,c) extends B(a,b,c){}
+
+//object syntax
+object A
+object A{}
+object A extends B
+object A extends B{}
+object A extends B()
+object A extends B(){}
+object A extends B(a,b,c)
+object A extends B(a,b,c){}
+case object A
+case object A{}
+case object A extends B
+case object A extends B{}
+case object A extends B()
+case object A extends B(){}
+case object A extends B(a,b,c)
+case object A extends B(a,b,c){}
+
+//method syntax
+def a = 10
+def a() = 10
+def a(b) = 42 + 10 * b / 11 - 5
+def a() = {20}
+def a(){
+  
+  return
+}
+
+//variable / value syntax
+var x = 123
+val y = 123
+
+//for comprehensions
+for(a <- b) println(a)
+for(a <- b) {println(a)}
+for(a <- b if a > 10) println(a)
+for(a <- b if a > 10) {println(a)}
+for(a <- b) yield a
+for(a <- b) yield {a}
+for(a <- b if a > 10) yield a
+for(a <- b if a > 10) yield {a}
+for(
+    a <- b
+    c <- d
+    if a > 10
+    if c < 5
+    ) yield a*c
+
+for(
+    a <- b
+    c <- d
+    if a > 10
+    if c < 5
+    ) println(a*c)
+
+//while loop
+while(false){ println() }
+while(false) println()
+do { println() } while(false)
+do println() while(false)
+
+//try catch finally
+try{ x() } catch {e => }
+try{ x() } catch {e => } finally { println("done") }
+try{ x() } finally { println("done") }
+try x() catch errorHandler
+try x() catch something.buildErrorHandler() finally println("done")
+try x() finally println("done")
+
+//if, else if, else
+if(x) x
+if(x) x else if(y) y
+if(x) x else if(y) y else z
+if(x) x else z
+
+if(x){ x } 
+if(x){ x } else if(y) { y }
+if(x){ x } else if(y) { y } else { z }
+if(x){ x } else { z }
+
+
+//lambdas
+//{=> println()}
+{a => a+1}
+{(a,b) => a+b}
+{_ + _}
+{_.length}
+//(=> )
+(a => )
+((a,b) => )
+(_ + _)
+(_.length)
+
+//partial functions
+{
+  case null => 
+  case false => 
+  case Test(null,"test",123) =>
+  case a => a
+  case b if b < 200 =>
+    val x = b+10
+    x*2
+  case c:SomeClass =>
+  case name@Extractor(a,b,bla@_*) => a
+}
+
+
+
+//literals: numbers, booleans, strings, json, xml
+"asdf\"asdf"
+'asdf\'asdf'
+0
+0.0
+
+
+//operators, are they different than methods? how are they desugared, how is += handled, how are unary operators handled?
+a == b
+a += b
+a ++= 3
+a ** 42f
+a \\ "name"
+a = a+b
+
+
+
+    </script>
+    
+<script type="text/rescripted-parse">
+{<t>{for(x <- 10 to 20) yield x * 2}&copy;</t>}
+{<a a="a"/>};
+{<b c="giraffe" d={for(x <- 10 to 20) yield x * 2}/>};
+{<k x="1" d={for(x <- 10 to 20) yield x * 2}></k>};
+{<qweqwqe 
+  sdffds="1" 
+  sdffds="dsdfsdfs"/>}
+{<c><w><t></t>dfdfdf &lt; &lt;sdfds</w><b/>ssas</c>}
+(<q>sdf<![CDATA[this is the data]]></q>)
+{<r><![CDATA[this is the data]]></r>}
+{<a g='sdfdsf'><!-- comments --> sdf<![CDATA[this is the data]]></a>}
+
+</script>
+    
+  </head>
+  <body>
+  </body>
+</html>
+
