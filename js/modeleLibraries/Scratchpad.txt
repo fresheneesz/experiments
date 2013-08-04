@@ -5,7 +5,7 @@ A. perfund server
 		* already loaded modules - the modules the page already has on it (sorted in alphabetical order or something)
 	* When a file path is requested
 		* if the request file path + already loaded modules is not in the cache:
-			* package up the module (minus already loaded modules)
+			* package up the requested modules and their dependencies (minus already loaded modules)
 				* Node.js modules
 					* maybe convert them to AMD modules??
 				* AMD modules?					

@@ -14,28 +14,72 @@ load.base = "/modules"
 		} else {
 			throw new Error("Invalid number of arguments("+arguments.length+"), should be 1 or 2.")	
 		}
-		
-		modules.forEach(function(module) {
-			if(!cache[module]) 
-				cache[module] = {requested: true, loaded: false}	
+
+		var unrequestedModules = modules.filter(function(module) {
+			return !(module in cache)
 		})
 		
-		var modulesInfo = cache.filter(function(info, module) {
-			modules.contains(module)
-		})
-		
-		var allModulesRequested = modulesInfo.reduce(function(prev, cur) {
-			return prev && cur.requested
-		},true)
-		
-		if(!allModulesRequested) {
-			// request the modules
+		if(unrequestedModules.length > 0) {
+            var alreadyRequestedModules = cache.keys() // todo: sort alphabetically (so the request can be cached more easily)
+
+			requestModules(unrequestedModules)
+
+            /* Meanwhile: on the sever...
+
+                var cacheKey = JSON.stringify({modules: unrequestedModules, exclusions: alreadyRequestedModules})
+                if(packageCache[cacheKey] === undefined) {
+                    var packageCache[cacheKey] = createPackage(unrequestedModules, alreadyRequestedModules)
+                }
+
+                return packageCache[cacheKey] // return this as the http response
+
+                function createPackage(unrequestedModules, alreadyRequestedModules) {
+                    var package = ""
+                    unrequestedModules.forEach(function(moduleName) {
+                        var module = createModule(moduleName, alreadyRequestedModules)
+                        package += minify(module) // a little optimization
+                    })
+
+                    return package
+                }
+
+                function createModule(module, exclusions) {
+                    var file = fs.readFileSync(module)
+                    if(hasRequires(file)) { // CommonJs format - needs conversion
+                        convertCommonJsToAMD(file)
+
+                    } else { // it must be an AMD module
+                        return file
+                    }
+                }
+
+                function convertCommonJsToAMD(file) {
+                    // use r.js to convert files to AMD format
+
+                    // see if you can use this for requires that require node.js builtin modules like path or util
+                        //* https://github.com/alexgorbatchev/node-browser-builtin
+                }
+
+             */
+
+
+
+            unrequestedModules.forEach(function(module) {
+                if(!cache[module])
+                    cache[module] = {loaded: false}
+            })
 		}
 		
 		// set it up so the callback is triggered either now or whenever all its dependencies load
-		
+            // use code derived from requirejs/require.js (line 1819)
+            // * req.load = function (context, moduleName, url) {
+
 		//require(modules, callback);
 	}
+
+    function() {
+
+    }
 })()
 
 
@@ -46,11 +90,13 @@ function getParamNames(func) {
     return funStr.slice(funStr.indexOf('(')+1, funStr.indexOf(')')).match(/([^\s,]+)/g);
 }
 
+
+
 // usage
 
 load(function(moduleA, moduleB, etc) {
 	
-}
+})
 // or
 load(["module-with-dashs","aModuleWithTooLongOfAName", "otherModules"], function(moduleWithDashes, tooLong, otherModules) {
 	
