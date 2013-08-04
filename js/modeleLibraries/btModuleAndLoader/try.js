@@ -22,7 +22,7 @@ load.base = "/modules"
 		if(unrequestedModules.length > 0) {
             var alreadyRequestedModules = cache.keys() // todo: sort alphabetically (so the request can be cached more easily)
 
-			requestModules(unrequestedModules)
+			requestModules(unrequestedModules, alreadyRequestedModules)
 
             /* Meanwhile: on the sever...
 
@@ -69,16 +69,12 @@ load.base = "/modules"
                     cache[module] = {loaded: false}
             })
 		}
-		
+	}
+
+    function requestModules(unrequestedModules, alreadyRequestedModules) {
 		// set it up so the callback is triggered either now or whenever all its dependencies load
             // use code derived from requirejs/require.js (line 1819)
             // * req.load = function (context, moduleName, url) {
-
-		//require(modules, callback);
-	}
-
-    function() {
-
     }
 })()
 
