@@ -1,0 +1,10 @@
+__ To Do (should be in priority order, highest priority at top) __
+
+* Set up connection pooling
+
+
+__ Ideas __
+
+* Use MongoDB for storage 
+	* config
+	* other? What types of things is mongo good for?

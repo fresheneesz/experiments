@@ -1,0 +1,91 @@
+* Are you best at front or back end?
+
+* How much database experience do you have?
+* mysql?
+
+* have you used any javascript frameworks / libraries? Which ones?
+* have you ever written a jQuery plugin
+
+
+* What interests you? What kind of things do you like working on?
+
+* Does any IE issue come to mind that you remember having to solve?
+
+
+* Are you working on, or have you worked on, and side projects?
+
+
+-- idealogical questions --
+
+* Whats your favorite langauge?
+* Whats your opinion on java as a language? Javascript?
+
+* Is there anything you would change about LANGUAGE_X (css/java/etc) if you could?
+* What feature would you most like to see added to LANGUAGE_X
+
+* Whats your opinion on the importance of speed vs scalability vs maintainability
+* What makes a program maintainable?
+
+* How do you like to work? 
+* What is your general approach when starting a project or solving a problem?
+* What tools, libraries, or resources do you like to use?
+* What would you suggest we use?
+
+* In a twenty-lecture training course on Java, in which lecture should the concept of object orientation be introduced, and why?
+* Should good code be self-documenting, or is it the responsibility of the developer to document it?
+
+-- troubleshooting questions --
+
+* We run multiple servers (2 at the moment - used to be more), which are behind a load balancer. We have a video ad system that records how far along a user is in a video (at regular intervals). Currently, when a request to update the record comes in, we grab the row if there is one, change it, and update the db (and if there isn't one, we create it). We're sometimes seeing duplicate rows created in the database. Why would this be and how would you solve it?
+
+* we had some issues with deadlocks happening on insert of a row for a particular table. How would you debug this issue?
+
+* We're faced with being closed off from our production database as developers, meaning we couldn't search and modify production data because of PII. What problems could arrise from this limitation and how would you suggest we work around it?
+
+
+-- Javascript --
+
+* difference between == and ===
+
+* Could you write a page snippet that calls an ajax function on press of a button, and displays the result on the page?
+* what if you wanted to have a button at the bottom of the page too that did the same thing
+
+* Can you explain to me what a closure is?
+
+* What does this give you: "2"+5+6 ?
+* how would you fix that problem?
+
+-- CSS --
+
+* given a body tag that contains conditional classes based on what version of IE it might be, how would you write something that makes a different style just for ie
+* if you have a div that has floated elements inside it, how can you ensure that hte size of that div expands the full size of the elements it contains?
+
+
+-- Any Language --
+
+* Reverse a linked list in X
+* How would you go about debugging a NullPointerException?
+
+
+-- SQL --
+
+Given table A and B where A has the rows id,name and B has the rows id,location and ids match for a give. Lets say that for every row in table B there is always a row in table A, but not vice versa
+* write a select that selects all the info for every person named 'ted'
+* write a select that selects all the info for every person in the location 'canada'
+
+Lets say you want to build a message board where messages can nest. Each message has an author, date, message-body. We want to store this message nesting hierarchy in the database.
+* How would you design the schema for this?
+* How would you select all the messages that replied to a given message (given its ID)?
+* (if the answer didn't include nested child messages, ask about how to select those as well)
+* could we simplify things if we limited nesting to 3 levels or something?
+* how might that change things?
+
+* We run multiple servers (2 at the moment - used to be more), which are behind a load balancer. We have a video ad system that records how far along a user is in a video (at regular intervals). Currently, when a request to update the record comes in, we grab the row if there is one, change it, and update the db (and if there isn't one, we create it). We're sometimes seeing duplicate rows created in the database. Why would this be and how would you solve it?
+
+
+-- Puzzle questions --
+
+* You have 10 bags of marbles
+* 9 of the bags contain marbles that are 1 gram each
+* One bag contains marbles that are 1.1 gram each
+- How would you determine which bag contained the heavier marbles optimizing for the least number of measurements on a scale?

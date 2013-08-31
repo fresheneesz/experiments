@@ -1,0 +1,198 @@
+<p><span style="color: rgb(255,0,0);"><strong>Extends API</strong></span>:&nbsp;<ac:link><ri:page ri:content-title="Monetization API" /></ac:link></p>
+
+
+
+<p><strong>Current Version</strong>: 0.2</p>
+
+
+<p><strong>Used by</strong>: <ac:link><ri:page ri:content-title="Item Transaction API" /><ac:link-body>The Item Transaction API</ac:link-body></ac:link>, <ac:link><ri:page ri:content-title="Item Info API" /><ac:link-body>Item Info API</ac:link-body></ac:link>, <ac:link><ri:page ri:content-title="FB Subscription Refund V2" /><ac:link-body>Subscription Reward API v1&amp;v2</ac:link-body></ac:link>, <ac:link><ri:page ri:content-title="FB Subscription Status V2" /><ac:link-body>Subscription Status API v2</ac:link-body></ac:link>, <ac:link><ri:page ri:content-title="FB Subscription Cancel V2" /><ac:link-body>Subscription Cancel API v2</ac:link-body></ac:link>, <ac:link><ri:page ri:content-title="FB Subscription Refund V2" /><ac:link-body>Subscription Refund API v2</ac:link-body></ac:link>, <ac:link><ri:page ri:content-title="FB Subscription Sync V2" /><ac:link-body>Subscription Sync API v2</ac:link-body></ac:link>, <ac:link><ri:page ri:content-title="FB Subscription Grace V2" /><ac:link-body>Subscription Grace API v2</ac:link-body></ac:link>.</p>
+
+
+<h2>Summary</h2>
+
+
+<p>An API interface that defines authenticated (but not encrypted) requests.</p>
+
+
+<h2>Request</h2>
+
+
+<p><span style="color: rgb(0,0,0);">The request body is replaced by the following:</span></p>
+
+
+<h4>Request Body</h4>
+
+
+<p><span style="color: rgb(51,102,255);">&lt;securityHash&gt;</span><span style="color: rgb(128,0,0);">&quot; &quot;</span><span style="color: rgb(51,102,255);">&lt;</span><span style="color: rgb(51,102,255);">jsonRequest</span><span style="color: rgb(51,102,255);">&gt;</span></p>
+
+
+<p>where</p>
+
+<ul>
+	
+<li><span style="color: rgb(51,102,255);">&lt;securityHash&gt;</span> is a base-64-encoded SHA-1 HMAC hash of <span style="color: rgb(51,102,255);">&lt;</span><span style="color: rgb(51,102,255);">jsonRequest</span><span style="color: rgb(51,102,255);">&gt;</span> <span style="color: rgb(0,0,0);">using&nbsp;</span><span style="color: rgb(51,102,255);">&lt;secret&gt;</span> <span style="color: rgb(0,0,0);">as the hmac key. If the hash sent in the request doesn't match the hash calculated on the responder's end, the request should fail with</span> <span style="color: rgb(51,102,255);">&lt;error-type&gt;&nbsp;</span><span style="color: rgb(128,0,0);">&quot;unauthorized&quot;</span><span style="color: rgb(0,0,0);">.</span></li>
+	
+<li><span style="color: rgb(51,102,255);">&lt;secret&gt;</span>&nbsp;is a shared secret <span style="text-decoration: underline;">unique</span> between the <span style="color: rgb(128,0,0);">&quot;requester&quot;</span>&nbsp;and the endpoint url. The secret should be agreed upon between the team implementing the requester and the team implementing the responder (future versions of this API will hopefully obtain the secret using the DCOP auth service).
+	
+<ul>
+		
+<li>Monetization - when interacting with monetization, QA will have the secret &quot;QA_secret_key&quot; and production will have some other key created by monetization.</li>
+	</ul>
+	</li>
+	
+<li><span style="color: rgb(128,0,0);">&quot; &quot;</span>&nbsp;is a space</li>
+	
+<li><span style="color: rgb(51,102,255);">&lt;</span><span style="color: rgb(51,102,255);">jsonRequest</span><span style="color: rgb(51,102,255);">&gt;</span> <span style="color: rgb(0,0,0);">is the original reponse body as defined by&nbsp;</span><span style="color: rgb(0,0,0);"><ac:link><ri:page ri:content-title="Monetization API" /></ac:link></span></li>
+</ul>
+
+
+
+
+<h4>Example Request Body</h4>
+
+
+<p><span style="color: rgb(51,102,255);"><strong>&lt;</strong></span><span style="color: rgb(51,102,255);"><strong>jsonRequest</strong></span><span style="color: rgb(51,102,255);"><strong>&gt;</strong></span><span style="color: rgb(0,0,0);"><strong>:</strong></span> {</p>
+
+<ul>
+	
+<li>&quot;system&quot;: &quot;monetization&quot;</li>
+	
+<li>&quot;requester&quot;: &quot;btetrud&quot;</li>
+	
+<li>&quot;t&quot;:1344385436</li>
+	
+<li>&quot;idOrigin&quot;: &quot;facebook&quot;</li>
+	
+<li>&quot;id&quot;: 23489</li>
+	
+<li>&quot;network&quot;: &quot;f&quot;</li>
+	
+<li>&quot;user&quot;:&quot;c28k3fjj9&quot;</li>
+	
+<li>&quot;items&quot;:[ 	&nbsp;
+	
+<ul>
+		
+<li>{
+		
+<ul>
+			
+<li>&quot;category&quot;:&quot;item&quot;&nbsp;</li>
+			
+<li>&quot;id&quot;:&quot;12&quot;</li>
+			
+<li>&quot;amount&quot;:1</li>
+		</ul>
+		</li>
+		
+<li>}</li>
+	</ul>
+	</li>
+</ul>
+
+
+
+<ul>
+	
+<li>]</li>
+</ul>
+
+
+
+<p>}</p>
+
+
+<p><strong>stringified</strong> <span style="color: rgb(51,102,255);"><strong>&lt;</strong></span><span style="color: rgb(51,102,255);"><strong>jsonRequest</strong></span><span style="color: rgb(51,102,255);"><strong>&gt;</strong></span><strong>:</strong></p>
+<ac:macro ac:name="noformat"><ac:plain-text-body><![CDATA[{"system":"monetization","requester":"btetrud","t":1344385436,"idOrigin":"facebook","id":23489,"network":"f","user":"c28k3fjj9","items":[{"category":"item","id":"12","amount":1}]}]]></ac:plain-text-body></ac:macro>
+
+<p><strong>secret:</strong> dummySecret</p>
+
+
+<p><strong>securityHash:</strong> G7sSpScpOgVc/GnZqSohRzpIvu0=</p>
+
+
+<p><span style="color: rgb(0,0,0);"><strong>full request body:</strong></span></p>
+<ac:macro ac:name="noformat"><ac:plain-text-body><![CDATA[G7sSpScpOgVc/GnZqSohRzpIvu0=  {"system":"monetization","requester":"btetrud","t":1344385436,"idOrigin":"facebook","id":23489,"network":"f","user":"c28k3fjj9","items":[{"category":"item","id":"12","amount":1}]}]]></ac:plain-text-body></ac:macro>
+
+
+<h2>Response</h2>
+
+
+<p>The response body,&nbsp;<span style="color: rgb(51,102,255);">&lt;</span><span style="color: rgb(51,102,255);">jsonResponse</span><span style="color: rgb(51,102,255);">&gt;</span>, is extended in the following way:</p>
+
+<ul>
+	
+<li><span style="color: rgb(51,102,255);">&lt;error-type&gt;</span> <span style="color: rgb(0,0,0);">has the standard type:</span>** <span style="color: rgb(128,0,0);">&quot;unauthorized&quot;</span><span style="color: rgb(0,0,0);">&nbsp;- the request could not be authorized</span></li>
+	
+<li><span style="color: rgb(51,102,255);">&lt;error-message&gt;&nbsp;</span><span style="color: rgb(0,0,0);">for</span> <span style="color: rgb(51,102,255);">&lt;error-type&gt;&nbsp;</span><span style="color: rgb(128,0,0);">&quot;unauthorized</span><span style="color: rgb(128,0,0);">&quot;</span><span style="color: rgb(0,0,0);">&nbsp;are not recommended in normal cases</span></li>
+</ul>
+
+
+
+<h2><span style="color: rgb(136,136,136);">Supplementary Info</span></h2>
+
+
+
+<h4>Security Techniques used</h4>
+
+
+<ul>
+	
+<li>hashing rather than encryption for authentication but not privacy</li>
+	
+<li>SHA-1 hash for speed yet reasonable security</li>
+</ul>
+
+
+
+<h2><span style="color: rgb(136,136,136);">Additional Examples</span></h2>
+
+
+
+<h4><span style="color: rgb(51,102,255);">&lt;securityHash&gt;</span></h4>
+
+
+<p><span style="color: rgb(0,0,0);"><strong>Java:</strong></span><span style="color: rgb(0,0,0);">&nbsp;</span></p>
+<ac:macro ac:name="noformat"><ac:plain-text-body><![CDATA[
+    // hmac based on RFC 2104 (unsure if this is true anymore)
+    // returns base64 encoded string
+    public static String sha1HMAC(String key, String message) throws Throwable {
+        SecretKeySpec spec = new SecretKeySpec(
+            key.getBytes(),
+            "HmacSHA1");
+
+        Mac mac = Mac.getInstance("HmacSHA1");
+        mac.init(spec);
+
+        byte[] result = mac.doFinal(message.getBytes());
+        byte[] empty = new byte[]{};                                             // don't do line separaters..
+        org.apache.commons.codec.binary.Base64 encoder = new Base64(0,  empty);  // and don't chunk the result
+
+        return encoder.encodeToString(result);
+    }
+]]></ac:plain-text-body></ac:macro>
+
+
+<h2><span style="color: rgb(136,136,136);">Change Log</span></h2>
+
+
+<p>Note: all items in the change log are reflected in the canonical documentation above.</p>
+
+
+<h4>v0.2</h4>
+
+
+<ul>
+	
+<li>Removed the nonce parameter, as it doesn't actually serve any security related purpose for authentication hashes</li>
+</ul>
+
+
+
+<p><strong>v0.1</strong></p>
+
+
+<ul>
+	
+<li>Created from the <ac:link><ri:page ri:content-title="Item Transaction API" /><ac:link-body>Item Transaction API v1.0</ac:link-body></ac:link></li>
+</ul>

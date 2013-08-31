@@ -1,0 +1,12 @@
+Requirements:
+
+A. client-side code declares explicit modules it requires (just like node.js, but doesn't have to be in the node.js way [CommonJS module spec])
+B. browser can incrimentally load more modules as needed (doesn't have to load all the javascript up front)
+C. browser can load modules asynchronously (no calls that stop the world)
+D. incrementally loaded modules don't send over modules already loaded in the browser again (they reuse stuff already on the browser when possible)
+E. I can share modules between node.js and client-code seamlessly (any transformation must be done automatically with a repeatable process - which would have to be done anytime the module changes)
+F. Ability to optimize script loading (don't make more http requests than you have to)
+
+Nice-to-have:
+
+G. The ability to load regular javascript (like jquery) that exposes things globally (or on the window object explicitly)

@@ -1,0 +1,736 @@
+<%@ page import="com.offers.internaltools.Statics" %>
+<%@ page import="com.util.OfferUtil" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.util.ServerCategory" %>
+<%@ page import="com.offers.PageMessage" %>
+<%@ page import="com.offers.PaymentMapping" %>
+
+<%@ include file="/fragments/doctype.jsp" %>
+
+<html>
+<head>
+    <title>Item Transaction API Tester</title>
+
+    <% /* test json data 
+    {"itaEndpointUrl":"http://marvel-fb-staging-tomcat-active-vip.playdom.com/itemTransaction/1.0","validItemCategory":"","validItemIdentifier":"73e50f50-70b1-11e2-afe7-0025906a2be6","invalidItemCategory":"defaultInvalidCategory","invalidItemIdentifier":"defaultInvalidIdentifier","validUser":"100001342672661","validNetwork":"facebook","invalidUser":"invalidUserID","invalidNetwork":"invalidNetwork","requesterA":"monetization","secretA":"QA_secret_key","requesterB":"waerf","secretB":"abc123","invalidRequester":"defaultInvalidRequester"}
+    */
+    %>
+
+    <style type="text/css">
+        /* colors:
+            * rgb(80,80,80)
+            * lightgray
+            * gray
+            * #073391 - (blue)
+            * //#926607  - (Brown) complimentary of #073391
+            * #c79936 - (lightbrown) lighter than #926607
+            * #910733 - (maroon) triad of #073391
+            * #339107 - (green) triad of #073391
+            * #076A91 - (turquoise) analog of #073391
+        */
+
+        input, textarea {
+            margin-top: 20px;
+            display: inline;
+        }
+            input.long {
+                width:200px;   
+            }
+
+            .label {
+                color: gray;
+                font-size: 11px;
+                font-family: Tahoma;
+            }
+
+        .button {
+            background-color: #c79936;
+            color: #073391;
+            border: 2px solid #073391;
+
+            cursor: pointer;
+            display: inline-block;
+            font-size: 13px;
+            margin: 10px;
+            padding: 2px;
+        }
+
+        .summary{
+            font-size: 20px;
+            text-decoration: underline;
+        }
+            .summary .loadingImage {
+                width: 40px;
+            }
+        .testRun {
+            margin-bottom: 10px;
+            padding: 0 3px;
+            border: 1px solid lightgray;
+        }
+            .testTitle {
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .success {
+                color: #339107;
+            }
+            .failure {
+                color: #910733;
+            }
+                .exception {
+                    color: #926607;
+                }
+            .request {
+                color: #076A91;
+            }
+            .response {
+                color: #073391;
+            }
+    </style>
+
+
+</head>
+
+<body>
+
+    <%@ include file="toolFragments/toolJS.jsp"%>
+    <script src="https://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/hmac-sha1.js" type="text/javascript"></script>
+    <script src="https://crypto-js.googlecode.com/svn/tags/3.0.2/build/components/enc-base64-min.js" type="text/javascript"></script>
+
+    <h2>Item Transaction API Tester</h2>
+    <div>Runs a battery of tests on an ITA endpoint to validate various tests cases that include both valid and invalid requests.
+         The ITA endpoint you give here should be accessible from softlayer machines.
+    </div>
+
+    <input class="itaEndpointUrl titleAbove" title="ITA Endpoint Url:">
+
+    <input class="validItemCategory titleAbove" title="Valid Item Category:">
+    <input class="validItemIdentifier titleAbove" title="Valid Item Identifier:">
+    <input class="invalidItemCategory titleAbove" title="Invalid Item Category:" value="defaultInvalidCategory" >
+    <input class="invalidItemIdentifier titleAbove" title="Invalid Item Identifier:" value="defaultInvalidIdentifier" >
+
+    <input class="validUser titleAbove" title="Valid User ID:">
+    <input class="validNetwork titleAbove" title="Network for Valid User ID:">
+    <input class="invalidUser titleAbove" title="Invalid User ID:" value="invalidUserID" >
+    <input class="invalidNetwork titleAbove" title="Network for Inalid User ID:" value="invalidNetwork">
+
+    <input class="requesterA titleAbove" title="Requester A:">
+    <input class="secretA titleAbove" title="Secret For Requester A:">
+    <input class="requesterB titleAbove" title="Requester B:">
+    <input class="secretB titleAbove" title="Secret For Requester B:">
+
+    <input class="invalidRequester titleAbove" title="Invalid Requester:" value="defaultInvalidRequester">
+
+    <input class="transactionIdStart titleAbove" title="Transaction ID Starting Point:">
+    <input style="display:none" class="transactionIdCounter" value="0">
+
+    <br>
+
+    <textarea class="importJson titleAbove" title="Import Json - Paste in a new value to import test parameters:" >${config}</textarea>
+
+    <div class="test button">Run Tests</div>
+    
+    <div class="summary"></div>
+    <div class="testArea"></div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<script src="${staticBaseUrl}/scripts/proto.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    var loadingImage = '<img class="loadingImage" src="${staticBaseUrl}/images/loading.gif">';
+
+    $(function() {
+
+        $(".titleAbove").positionTitle('above', 'label');
+        $(window).resize(function() { $(".titleAbove").positionTitle();});
+
+        var importJsonNode = $(".importJson");
+
+        var randInt = getRandomInt(0, 100200300400);
+        $(".transactionIdStart").val(randInt); // initialize a random value for the transaction ids
+
+        var fields = $(".itaEndpointUrl, .validItemCategory, .validItemIdentifier, .invalidItemCategory, .invalidItemIdentifier"
+                       +", .validUser, .validNetwork, .invalidUser, .invalidNetwork"
+                +", .requesterA, .secretA, .requesterB, .secretB, .invalidRequester");
+        var configObject = Configuration(fields, importJsonNode);
+        configObject.change(function() {
+            importJsonNode.val(JSON.stringify(configObject.toJson()));
+        });
+        importJsonNode.change(function() {
+            try {
+                var importJson = JSON.parse(importJsonNode.val());
+            } catch(e) {
+                alert("Problem parsing Import Json: "+e);
+                return;
+            }
+
+            configObject.modifyFromJson(importJson);
+        });
+        if(importJsonNode.val() != '') importJsonNode.change(); // trigger the change event so it renders any content loaded by the url
+
+        var c;
+        var tests = [
+            Test("ITA Endpoint Url Format", function() {
+                if(c.itaEndpointUrl.match(new RegExp("://")) == null) this.fail("The ITA endpoint doesn't seem to be a proper URL");
+
+                var parts = c.itaEndpointUrl.split("/");
+
+                if(parts[parts.length-1] === '') parts.length -= 1; // remove last element (delete doesn't work right) 
+                var lastIndex = parts.length-1;
+
+                var r = new RegExp("[0-9.]*");
+                if(parts[lastIndex] !== parts[lastIndex].match(r)[0]) {
+                    this.fail("The version is not numeric (doesn't only contain numbers and dots).");
+                }
+                if(parts[lastIndex-1] !== "itemTransaction") {
+                    this.fail("The second-to-last part of the endpoint is not 'itemTransaction' - instead it is: '"+parts[lastIndex-1]+"'.");
+                }
+
+                return "yay";
+            }),
+            Test("Blank Request Body", function() {
+                testForBadRequest(this, c, "");
+            }),
+            Test("Jibberish Request Body without spaces", function() {
+                testForBadRequest(this, c, "aclhm9ac39j;kkj;5a489ma438lj;a4kgj89a3hl7adimiad");
+            }),
+            Test("Jibberish Request Body with one space", function() {
+                testForBadRequest(this, c, "aclhm9ac39j;kkj;5a489m a438lj;a4kgj89a3hl7adimiad");
+            }),
+            Test("Jibberish Request Body with many spaces", function() {
+                testForBadRequest(this, c, "aclhm9 ac39j;kkj; 5a489m a438lj;a4kgj89 a3hl7adi miad");
+            }),
+            Test("Valid JSON request without hash", function() {
+                var request = validTestRequest(c);
+
+                var requestString = request.getRequest(c.secretA);
+                var indexOfJson = requestString.indexOf(" ");
+                requestString = requestString.substr(indexOfJson+1); // tear off the hash
+                testForBadRequest(this, c, requestString);
+            }),
+            Test("Valid JSON request with invalid hash", function() {
+                var request = validTestRequest(c);
+
+                var requestString = request.getRequest(c.secretA);
+                var indexOfJson = requestString.indexOf(" ");
+                requestString = requestString.substr(indexOfJson+1); // tear off the hash
+                var invalidHash = "invalidHash";
+                var response = testForPermanentFailure(this, c, invalidHash+" "+requestString);
+                if(response.type !== 'unauthorized' ) this.fail("Did not return an unauthorized error type.");
+            }),
+            Test("Invalid JSON request with *valid* hash", function() {
+                var invalidJSON = '{"some":"invalid" "json":"object", []}';
+                var validHash = AuthenticatedMonetizationApiRequest.prototype.hash(c.secretA, invalidJSON);
+                testForBadRequest(this, c, validHash+" "+invalidJSON);
+            }),
+            Test("Missing required parameter - requester", function() {
+                var request = validTestRequest(c);
+                delete request.request.requester; // remove this required parameter
+                testForMissingParameter(this, c, request.getRequest(c.secretA));
+            }),
+            Test("Missing required parameter - idOrigin", function() {
+                var request = validTestRequest(c);
+                delete request.request.idOrigin; // remove this required parameter
+                testForMissingParameter(this, c, request.getRequest(c.secretA));
+            }),
+            Test("Missing required parameter - id", function() {
+                var request = validTestRequest(c);
+                delete request.request.id; // remove this required parameter
+                testForMissingParameter(this, c, request.getRequest(c.secretA));
+            }),
+            Test("requesterB's secret with requesterA", function() {
+                var request = validTestRequest(c);
+                var response = testForPermanentFailure(this, c, request.getRequest(c.secretB));
+                if(response.type !== 'unauthorized') this.fail("Didn't get an unauthorized error-type");
+            }),
+            Test("requesterA's secret with requesterB", function() {
+                var request = validTestRequest(c);
+                request.request.requester = c.requesterB;
+                var response = testForPermanentFailure(this, c, request.getRequest(c.secretA));
+                if(response.type !== 'unauthorized') this.fail("Didn't get an unauthorized error-type");
+            }),
+            Test("invalid requester with requesterA's secret", function() {
+                var request = validTestRequest(c);
+                request.request.requester = c.invalidRequester;
+                var response = testForPermanentFailure(this, c, request.getRequest(c.secretA));
+                if(response.type !== 'unauthorized') this.fail("Didn't get an unauthorized error-type");
+            }),
+            Test("invalid requester with requesterB's secret", function() {
+                var request = validTestRequest(c);
+                request.request.requester = c.invalidRequester;
+                var response = testForPermanentFailure(this, c, request.getRequest(c.secretB));   
+                if(response.type !== 'unauthorized') this.fail("Didn't get an unauthorized error-type");
+            }),
+
+                
+            Test("Valid Request - requesterA", function() {
+                var request = validTestRequest(c);
+                testForSuccess(this, c, request.getRequest(c.secretA));
+            }),
+            Test("Valid Request - requesterB", function() {
+                var request = validTestRequest(c);
+                request.request.requester = c.requesterB;
+                testForSuccess(this, c, request.getRequest(c.secretB));
+            }),
+            Test("Valid Request - spaces after commas", function() { // try to break implementations that do a global split on space to separate the hash
+                var request = validTestRequest(c);
+                var requestString = request.getRequest(c.secretA);                
+                var indexOfJson = requestString.indexOf(" ");
+                requestString = requestString.substr(indexOfJson+1); // tear off the hash
+
+                requestString = requestString.replace(",",", ",'g'); // put spaces after commas
+                var validHash = AuthenticatedMonetizationApiRequest.prototype.hash(c.secretA, requestString);
+
+                testForSuccess(this, c, validHash+" "+requestString);
+            }),
+            Test("Valid Request - numeric user id", function() { // try to break implementations that only support user ids being passed as strings
+                var request = validTestRequest(c);
+                var intUser = parseInt(request.request.user);
+                if(request.request.user === intUser.toString()) {
+                    request.request.user = intUser;
+                } else {
+                    request.request.user = 100001342672661;  // mon tea account - likely to work, but the point is not to make it work but to elicit an exception in their code if it doesn't support integer user ids
+                }
+
+                var requestString = request.getRequest(c.secretA);
+                testForSuccess(this, c, requestString);
+            }),
+            Test("Valid Request - null Content-Type header", function() {
+                var request = validTestRequest(c);
+                testForSuccess(this, c, request.getRequest(c.secretA), null);
+            }),
+            Test("Valid Request - blank Content-Type header", function() {
+                var request = validTestRequest(c);
+                testForSuccess(this, c, request.getRequest(c.secretA), "");
+            }),
+            Test("Valid Request - jibberish Content-Type header", function() {
+                var request = validTestRequest(c);
+                testForSuccess(this, c, request.getRequest(c.secretA), "awefawef");
+            }),
+
+            Test("Duplicate request", function() {
+                var request = validTestRequest(c);
+                testForSuccess(this, c, request.getRequest(c.secretA));// sending once
+
+                var response = testForPermanentFailure(this, c, request.getRequest(c.secretA));    // sending duplicate
+                if(response.type !== 'duplicate') this.fail("Didn't get a duplicate error-type");
+            }),
+            Test("Request with same id but different idOrigin", function() {
+                var request = validTestRequest(c);
+                testForSuccess(this, c, request.getRequest(c.secretA)); // sending once
+
+                request.request.idOrigin += "_B"; // change idOrigin                 
+                testForSuccess(this, c, request.getRequest(c.secretA));
+            }),
+
+            Test("Item debiting", function() {
+                var request = validTestRequest(c);
+                testForSuccess(this, c, request.getRequest(c.secretA)); // credit 1 item
+
+                request.request.items[0].amount = -1;
+                request.request.id = buildTransactionId(c);
+                testForSuccess(this, c, request.getRequest(c.secretA));    // debit 1 item
+            }),
+            Test("Debiting more items than a user has", function() {
+                var request = validTestRequest(c);
+                request.request.items[0].amount = -100200300;
+                var response = testForPermanentFailure(this, c, request.getRequest(c.secretA));
+                if(response.type !== 'cannotDebit') this.fail("Didn't get a cannotDebit error type");
+            }),
+            Test("Valid Request with all optional request members", function() {
+                var request = validTestRequest(c);
+                request.request.comment = "Test comment";
+                request.request.info = {some:"test", parameters: [1,2,3], andStuff: {ok: "ok"}};
+                request.request.items[0].info = request.request.info;
+
+                testForSuccess(this, c, request.getRequest(c.secretA));
+            }),
+
+            Test("Invalid Item Category", function() {
+                var request = validTestRequest(c);
+                request.request.items[0].category = c.invalidItemCategory;
+                testForPermanentFailure(this, c, request.getRequest(c.secretA));
+            }),
+            Test("Invalid Item Identifier", function() {
+                var request = validTestRequest(c);
+                request.request.items[0].id = c.invalidItemIdentifier;
+                testForPermanentFailure(this, c, request.getRequest(c.secretA));
+            }),
+            Test("Valid Request - Same item appearing multiple times in list of items", function() {
+                var request = validTestRequest(c);
+                var item = request.request.items[0];
+                var newItem = {
+                    category: item.category,
+                    id: item.id,
+                    amount: 4
+                };
+                request.request.items.push(newItem);
+
+                testForSuccess(this, c, request.getRequest(c.secretA));
+            }),
+            Test("Invalid Request - one valid item, then one invalid item (empty object)", function() {
+                var request = validTestRequest(c);
+                var newItem = {};
+                request.request.items.push(newItem);
+
+                testForPermanentFailure(this, c, request.getRequest(c.secretA));
+            }),
+            Test("Invalid Request - one valid item, then one invalid item (empty object)", function() {
+                var request = validTestRequest(c);
+                var item = request.request.items[0];
+                var newItem = {
+                    category: item.category,
+                    id: c.invalidItemIdentifier,
+                    amount: 1
+                };
+                request.request.items.push(newItem);
+
+                testForPermanentFailure(this, c, request.getRequest(c.secretA));
+            }),
+            Test("Invalid Request - one valid item, then one valid item debited more than the user has", function() {         // expect rollback to work (some of these you might have to tell them to check the error messages and see if they're right - since the error message might make something clear but can't be parsed by the tool since it isn't standard)
+                var request = validTestRequest(c);
+                var item = request.request.items[0];
+                var newItem = {
+                    category: item.category,
+                    id: item.id,
+                    amount: -100200300
+                };
+                request.request.items.push(newItem);
+
+                testForPermanentFailure(this, c, request.getRequest(c.secretA));
+            })
+        ];
+
+        $(".test.button").click(function() {
+            $(".testArea").html('');
+            c = configObject.toJson();
+
+            $(".summary").html(loadingImage);
+
+            var successCount = 0;
+            var failureCount = 0;
+            for(n in tests) { var t = tests[n];
+                if(t.run())
+                    successCount++;
+                else
+                    failureCount++;
+            }
+
+            var openButton = $('<span class="open button">Open All Sections</span>');
+                openButton.click(function() {
+                    openButton.hide();
+                    closeButton.show();
+                    $(".testResults").show();
+                });
+            var closeButton = $('<span class="close button">Close All Sections</span>');
+                closeButton.click(function() {
+                    closeButton.hide();
+                    openButton.show();
+                    $(".testResults").hide();
+                });
+
+            $(".summary").html("<span class=success>"+successCount+" successes</span>, "+" and <span class=failure>"+failureCount+" failures</span>. ");
+            $(".summary").append(openButton).append(closeButton);
+            closeButton.hide();
+        });
+
+        //toolJS.setUpToolTip('.startDate, .endDate', ".timeHelp");
+
+    });
+
+    function validTestRequest(c) {
+        var items = [{category:c.validItemCategory, id:c.validItemIdentifier, amount:1}];
+                                        // system, requester, idOrigin, id, network, user, items, comment, info)
+        return TestRequest("monetization", c.requesterA, "monetizationTestTool", buildTransactionId(c),
+                                                c.validNetwork, c.validUser, items);
+    }
+
+    function buildTransactionId(config) {
+        var transactionIdCounter = $(".transactionIdCounter").val();
+        $(".transactionIdCounter").val(parseInt(transactionIdCounter)+1);
+        return config.transactionIdStart + transactionIdCounter;
+    }
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function makeTestRequest(theThis, config, request, contentType/*=makeServerPostRequest default*/) {
+        theThis.display('Making request: "<span class=request>'+request+'</span>"');
+        var response = makePostRequest(config.itaEndpointUrl, request, contentType);
+        theThis.display('Got response: '+makeResponseText(response));
+        try {
+            return JSON.parse(response);
+        } catch(e) {
+            throw "Couldn't parse JSON response: '<span class='response'>"+response+"</span>'";
+        }
+    }
+
+    function makeResponseText(response) {
+        return '"<span class=response>'+response+'</span>"'; 
+    }
+
+    function testForPermanentFailure(theThis, config, request) {
+        var response = makeTestRequest(theThis, config, request);
+        if(response.result !== 'permanentFailure') theThis.fail("Didn't get a permanentFailure result");
+        return response;
+    }
+    function testForBadRequest(theThis, config, request) {
+        var response = testForPermanentFailure(theThis, config, request);
+        if(response.type !== 'badRequest') theThis.fail("Didn't get a badRequest error type");
+        return response;
+    }
+    function testForMissingParameter(theThis, config, request) {
+        var response = testForPermanentFailure(theThis, config, request);
+        if(response.type !== 'missingParameter') theThis.fail("Didn't get a missingParameter error type");
+        return response;
+    }
+    function testForSuccess(theThis, config, requestString, contentType/*=makeServerPostRequest default*/) {
+        var response = makeTestRequest(theThis, config, requestString, contentType);
+        if(response.result !== 'success') theThis.fail("Didn't get a success result");
+        return response;
+    }
+
+    // note that the result of this can contain duplicates
+    $.fn.classes = function() {
+        var result = [];
+        this.each(function() {
+            var classList = $(this).attr("class").split(/\s+/);
+            for(var n in classList) { var c = classList[n];
+                result.push(c);
+            }
+        });
+        return result;
+    };
+
+
+    var Configuration = proto({
+        make: function(fields) {
+            this.fields = fields;
+        },
+        change: function(callback) {
+            this.fields.change(callback);
+        },
+        toJson: function() {
+            var result = {};
+            this.fields.each(function() {
+                var field = $(this);
+                var primaryClass = field.classes()[0];
+                result[primaryClass] = field.val();
+            });
+
+            return result;
+        },
+        modifyFromJson: function(json) {
+            for(var n in json) {
+                $("."+n).val(json[n]);
+            }
+        }
+    });
+
+    var Test = proto({
+        // testFunction should return a string error message for failure and nothing (undefined) for success
+        make: function(description, testFunction) {
+            this.description = description;
+            this.test = testFunction;
+        },
+        run: function() {
+            var resultArea = $('<div class=testResults></div>');
+            this.resultArea = resultArea;
+
+            var theThis = this;
+            var proxyObject = { // object that can be used by the test (as 'this')
+                errors: [],
+                display: function(result) {
+                    theThis.display(result);
+                },
+                fail: function(message) {
+                    proxyObject.errors.push(message);
+                }
+            };
+
+            var result;
+            try {
+                result = this.test.apply(proxyObject,[]);
+            } catch(e) {
+                proxyObject.fail("<span class=exception>Exception - "+e+"</span>");
+            }
+
+            if(result === undefined) result = '';
+
+            var success = !(proxyObject.errors.length > 0);
+            var resultMsg;
+            if(success) {
+                this.success(result);
+                resultMsg = '<span class=success>Success:</span> ';
+                resultArea.hide();
+            } else {
+                for(var n in proxyObject.errors) { var e = proxyObject.errors[n];
+                    this.failure(e);
+                }
+                
+                resultMsg = '<span class=failure>Failure.</span> ';
+            }
+
+            var test = $('<div class=testRun></div>');
+            var testTitle = $('<div class=testTitle>'+resultMsg+"Tested: "+this.description+'</div>');
+            testTitle.click(function() {
+                resultArea.toggle();
+            });
+
+            test.append(testTitle).append(resultArea);
+            $(".testArea").append(test);
+
+            return success;
+        },
+        success: function(msg) {
+            this.display("<span class=success>Success!</span> "+msg);
+        },
+        failure: function(msg) {
+            this.display("<span class=failure>Failure.</span> "+msg);
+        },
+        display: function(result) {
+            this.resultArea.append("<div>"+result+"</div>");
+        }
+    });
+
+
+    var MonetizationApiRequest = proto({
+        make: function(system, requester, comment, info) {
+            this.request = {};
+
+            var now = new Date();
+            var timestamp = Math.floor((now.getTime() + now.getTimezoneOffset())/1000);
+
+            this.request.system = system;
+            this.request.requester = requester;
+            this.request.t = timestamp;
+            if(comment!==undefined) {this.request.comment = comment;}
+            if(info!==undefined) {this.request.info = info;}
+        },
+        send: function(saleApiUrl) {
+            return this.sendRaw(saleApiUrl, this.getRequest());
+        },
+        getRequest: function() {
+            return JSON.stringify(this.request);
+        },
+        // private
+        sendRaw: function(saleApiUrl, data) {
+            return JSON.parse(toolJS.postRequest(saleApiUrl, data));
+        }
+    });
+    var AuthenticatedMonetizationApiRequest = proto({ mix: [MonetizationApiRequest],
+        make: function(system, requester, comment, info, n) {
+            MonetizationApiRequest.make(this, system, requester, comment, info);
+            if(n!==undefined) {this.request.n = n;}
+        },
+        // override
+        send: function(saleApiUrl, key) {
+            return this.sendRaw(saleApiUrl, this.getRequest(key));
+        },
+        extend: {
+            getRequest: function(superMethod, key) {
+                var requestString = superMethod.call(this);
+                var hash = this.hash(key, requestString);
+                return hash+" "+requestString;
+            }
+        },
+        // private
+        hash: function(key, requestString) {
+            if(key === undefined) throw "Key is undefined";
+            return CryptoJS.HmacSHA1(requestString, key).toString(CryptoJS.enc.Base64);
+        }
+    });
+    var ItemTransactionApiRequest = proto({ mix: [AuthenticatedMonetizationApiRequest],
+        make: function(system, requester, idOrigin, id, network, user, items, comment, info) {
+            AuthenticatedMonetizationApiRequest.make(this, system, requester, comment, info);
+
+            this.request.idOrigin = idOrigin;
+            this.request.id = id;
+            this.request.network = network;
+            this.request.user = user;
+            this.request.items = items;
+        }
+    });
+    var TestRequest = proto({ mix: [ItemTransactionApiRequest],
+        // override
+        send: function(saleApiUrl, key) {
+            return JSON.stringify(makePostRequest(saleApiUrl, this.getRequest(key)));
+        }
+    });
+
+    function makePostRequest(endpoint, request, contentType) {
+        var requestMaker = makeServerPostRequest;       // server
+        //if() requestMaker = makeClientPostRequest;      // client
+
+        return requestMaker(endpoint, request, contentType);
+    }
+
+    function makeClientPostRequest(endpoint, request, contentType) {
+        if(contentType === undefined) contentType = "text/json";
+
+        $.ajax({
+            async: false,
+            processData: false,
+            cache: false,
+            timeout: 3000,
+
+            type: "POST",
+            url: endpoint,
+            data: request,
+            headers: {
+                "Content-Type": contentType
+            },
+
+            dataType: "json",
+
+            error: function (data, status, exception) {
+                failure = data+" "+status+" "+exception;
+            },
+            success: function(returnedData) {
+                result = returnedData;
+            }
+        });
+
+        if(failure !== null) {
+            throw failure;
+        }
+
+        if(result.status !== 200) {
+            throw "Didn't get response status 200: got status "+result.status;
+        } else {
+            return result.response;
+        }
+    }
+
+    function makeServerPostRequest(endpoint, request, contentType) {
+        if(contentType === undefined) contentType = "text/json";
+
+        var result;
+        toolJS.simpleGetJax("/tools/test/itemTransactionAPI?action=makeRequest", {endpoint: endpoint, contentType: contentType, request: request},
+            function(returnedData) { // success
+                result = JSON.parse(returnedData);
+            },
+            undefined,
+            function(data, status, exception) { // failure
+                console.log(data+" "+status+" "+exception);
+            },
+            false // async - make it synchronous
+        );
+
+        if(result.status !== 200) {
+            throw "Didn't get response status 200: got status "+result.status;
+        } else {
+            return result.response;
+        }
+    }
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

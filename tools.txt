@@ -1,0 +1,8 @@
+* IntelliJ
+* TortoiseSVN
+* Firefox
+  * Firebug
+  * ColorZilla - for getting and setting colors
+  * JS Deminifier - makes minified javascript readable and debuggable 
+  * Modify Headers - pretend you're from another country by setting x-forwarded-for (or do other header modifying magic)
+  * Poster - send hand-built post requests

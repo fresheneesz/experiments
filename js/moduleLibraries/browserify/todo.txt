@@ -1,0 +1,1 @@
+test while serving files from a webserver (so you can see activity in firebug's net tab)
