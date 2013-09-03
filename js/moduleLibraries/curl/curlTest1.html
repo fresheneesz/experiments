@@ -1,0 +1,14 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/curl/0.7.3/curl-for-jQuery/curl.js"></script>
+<script>
+
+    curl(['js!localhost/one','js!localhost/two']).then(function (one, two) {
+            console.log(x)
+        },
+        // execute this callback if there was a problem
+        function (ex) {
+            var msg = 'OH SNAP: ' + ex.message;
+            alert(msg);
+        }
+    );
+
+</script>
