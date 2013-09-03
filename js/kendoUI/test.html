@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <link href="distribution/styles/kendo.common.min.css" rel="stylesheet" />
+        <link href="distribution/styles/kendo.default.min.css" rel="stylesheet" />
+        <script src="distribution/js/jquery.min.js"></script>
+        <script src="distribution/js/kendo.web.min.js"></script>
+    </head>
+    <body>
+        <input id="datepicker" />
+        <script>
+            var Krass = kendo.Class.extend({
+                x: 5,
+                go: function() {
+                    return this.x
+                },
+                init: function(a) {
+                    this.a = a
+                }
+            })
+
+            var k = new Krass("hi")
+            $('body').append("<br>"+k.a+" "+k.go()+"<br>")
+
+            var Krassy = Krass.extend({
+                x: 6
+            })
+
+            var k2 = new Krassy("hi")
+            $('body').append(k2.a+" "+k2.go()+"<br>")
+
+            var Krass2 = Krass.extend({
+                init: function() {
+                    Krass.fn.init.apply(this, arguments)
+                }
+            })
+
+            var k2 = new Krassy("hi")
+            $('body').append(k2.a+" "+k2.go()+"<br>")
+
+            var movies = [
+                { title: "Star Wars: A New Hope", year: 1977 },
+                { title: "Star Wars: The Empire Strikes Back", year: 1980 },
+                { title: "Star Wars: Return of the Jedi", year: 1983 }
+            ];
+
+            var localDataSource = new kendo.data.DataSource({ data: movies });
+
+            localDataSource.fetch(function(){
+                var data = this.data();
+                $('body').append(JSON.stringify(data))
+            });
+
+            $(function() {
+                $("#datepicker").kendoDatePicker();
+            });
+        </script>
+    </body>
+</html>

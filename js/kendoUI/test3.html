@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Kendo UI templates</title>
+
+        <script src="distribution/js/jquery.min.js"></script>
+        <script src="distribution/js/kendo.mobile.min.js"></script>
+
+        <style>
+        </style>
+
+    </head>
+    <body>
+        <!-- the *first* view in the dom is initialized and shown when the application is created -->
+        <div data-role="view" id="a" data-layout="main-layout" data-init="app.init">
+            <span id="test">click here</span>
+            <div id="thing"></div>
+        </div>
+        <div data-role="view" id="b" data-layout="main-layout" data-init="app.init2">
+            <span id="test2">click here</span>
+            <div id="thing2"></div>
+        </div>
+        <div id="dynamicView" style="display:none;"></div>
+        <script>
+        // Transitions: http://docs.kendoui.com/getting-started/mobile/application
+        // Kendo DataViz components, look around this link: http://docs.kendoui.com/api/dataviz/barcode
+
+        var app = {
+            init: function() {
+                console.log('init1')
+
+                var template = kendo.template("<div id='box'>#= firstName #</div>")
+                var result = template({ firstName: "Todd" })
+                $("#thing2").html(result);
+
+
+                //var view = new kendo.View("<span>I'm Dynamic!</span>");
+                //view.render($("body")); // This seems to just appear in view, even though it shouldn't be
+
+                $("#test").click(function() {
+                    app.application.navigate('#b', 'overlay:up')
+                })
+                $("#test2").click(function() {
+                    app.application.navigate('#dynamicView', 'overlay:right')
+                })
+            },
+            init2: function() {
+                console.log('init2')
+            }
+        };
+
+        $(function() {
+            var application = new kendo.mobile.Application(document.body, {
+                loading: '<h1 class="loading-message">Loading...</h1>',
+                skin: 'flat'
+            })
+            console.log('here') // it gets here first before the app.init call is made
+            app.application = application
+        })
+        </script>
+    </body>
+</html>
+
+
+
+

@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Kendo UI DataViz</title>
+
+        <link href="distribution/styles/kendo.dataviz.min.css" rel="stylesheet" />
+        <script src="distribution/js/jquery.min.js"></script>
+        <script src="distribution/js/kendo.dataviz.min.js"></script>
+        <script src="distribution/js/kendo.mobile.min.js"></script>
+
+        <!-- Stop link highlighting in WP8 -->
+        <meta name="msapplication-tap-highlight" content="no" />
+
+        <style>
+            #a {
+                border: 1px solid yellow;
+            }
+            #c {
+                border: 1px solid black;
+            }
+
+        </style>
+
+    </head>
+    <body>
+        <div data-role="view" id="a" data-layout="main-layout" data-init="app.init">
+            <span id="test">click here</span>
+        </div>
+        <div data-role="view" id="b" data-layout="main-layout">
+            <span id="test2">click here</span>
+            <div id="gauge"></div>
+        </div>
+        <div data-role="view" id="c" data-layout="main-layout">
+            <span id="test3">click here</span>
+            <div id="thing3"></div>
+        </div>
+        <div data-role="view" id="d" data-layout="main-layout">
+            <span id="test4">click here</span>
+            <div id="thing4"></div>
+        </div>
+        <script>
+        // Transitions: http://docs.kendoui.com/getting-started/mobile/application
+        // Kendo DataViz components, look around this link: http://docs.kendoui.com/api/dataviz/barcode
+
+        var app = {
+            init: function() {
+                var application = new kendo.mobile.Application(document.body, {
+                    loading: '<h1 class="loading-message">Loading...</h1>',
+                    skin: 'flat',
+                    platform: "ios" // force ios look
+                })
+                $("#gauge").kendoRadialGauge({
+                    startAngle: 90,
+                    endAngle: 180
+                });
+
+                $("#test").click(function() {
+                    application.navigate('#b', 'overlay:up')
+                })
+                $("#test2").click(function() {
+                    $("#thing3").kendoLinearGauge();
+                    application.navigate('#c', 'slide:right')
+                })
+                $("#test3").click(function() {
+                    $("#thing4").kendoSparkline([1, 2, 3, 2, 1]).css({height:100, width: 200})
+                    application.navigate('#d', 'slide:left')
+                })
+                $("#test4").click(function() {
+                    application.navigate('#a', 'slide:left')
+                })
+            }
+        };
+
+        $(function() {
+            app.init()
+        })
+        </script>
+    </body>
+</html>
+
+
+
+
