@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.extentia.SMSClient"
+    version="1.0.0">
+
+    <engines>
+        <engine name="cordova" version=">=2.7.0" />
+    </engines>
+    
+    <name>SMS</name>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="SMSClient">
+                <param name="android-package" value="com.extentia.SmsPlugin.SMSClient"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.READ_SMS" />
+            <uses-permission android:name="android.permission.SEND_SMS" />
+            <uses-permission android:name="android.permission.SEND_SMS" />
+            <uses-permission android:name="android.permission.WRITE_SMS" />
+        </config-file>
+
+        <source-file src="libs/gson-2.2.3.jar" target-dir="libs/" />
+        <source-file src="src/android/SMSClient.java" target-dir="src/com/extentia/SmsPlugin/SMSClient" />   
+        <source-file src="src/android/ActionParser.java" target-dir="src/com/extentia/SmsPlugin/ActionParser" />   
+        <source-file src="src/android/SMSData.java" target-dir="src/com/extentia/SmsPlugin/SMSData" /> 
+        <source-file src="src/android/InputValidator.java" target-dir="src/com/extentia/SmsPlugin/InputValidator" />   
+    </platform>
+
+</plugin>

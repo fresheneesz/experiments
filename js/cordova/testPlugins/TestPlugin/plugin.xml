@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.test"
+    version="1.0.0">
+
+    <engines>
+        <engine name="cordova" version=">=2.7.0" />
+    </engines>
+    
+    <name>TestPlugin</name>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="TestPlugin">
+                <param name="android-package" value="com.test.TestPlugin"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+        </config-file>
+
+        <source-file src="src/android/TestPlugin.java" target-dir="src/com/test/TestPlugin" />
+    </platform>
+
+</plugin>
