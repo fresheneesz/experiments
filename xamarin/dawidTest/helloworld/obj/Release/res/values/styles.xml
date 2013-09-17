@@ -1,0 +1,1 @@
+<resources><color name="mainColor">#F4F4F4</color><style name="MainTheme" parent="android:Theme"><item name="android:windowBackground">@color/mainColor</item><item name="android:windowNoTitle">true</item></style></resources>

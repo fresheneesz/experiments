@@ -1,0 +1,14 @@
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/MonoAndroid,Version=v2.2.AssemblyAttribute.cs
+/Users/lunereaper/Projects/helloworld/helloworld/bin/Release/HelloWorld.dll.mdb
+/Users/lunereaper/Projects/helloworld/helloworld/bin/Release/HelloWorld.dll
+/Users/lunereaper/Projects/helloworld/helloworld/bin/Release/HelloWorld.HelloWorld.apk
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/android/bin/HelloWorld.HelloWorld.apk
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/res/values/strings.xml
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/res/drawable/icon.png
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/res/values/styles.xml
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/res/layout/main.xml
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/R.cs.flag
+/Users/lunereaper/Projects/helloworld/helloworld/bin/Release/HelloWorld.HelloWorld-Signed.apk
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/uploadflags.txt
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/HelloWorld.dll
+/Users/lunereaper/Projects/helloworld/helloworld/obj/Release/HelloWorld.dll.mdb

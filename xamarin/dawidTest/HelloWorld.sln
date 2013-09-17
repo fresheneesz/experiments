@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld", "helloworld\HelloWorld.csproj", "{EEEE0AB4-9AF0-4A41-AB22-2227C4527E0B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EEEE0AB4-9AF0-4A41-AB22-2227C4527E0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEE0AB4-9AF0-4A41-AB22-2227C4527E0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEE0AB4-9AF0-4A41-AB22-2227C4527E0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEE0AB4-9AF0-4A41-AB22-2227C4527E0B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = helloworld\HelloWorld.csproj
+	EndGlobalSection
+EndGlobal
