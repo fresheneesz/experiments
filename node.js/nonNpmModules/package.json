@@ -1,0 +1,6 @@
+{"name":"test",
+ "version":"0.1.0",
+ "dependencies":{
+    "deadunit":"git+https://git@github.com/fresheneesz/deadunit.git#3ac862e0c2646df969e5e5ea95ca975eba658869" // switches cleanly from and to 8395e438492267b94ef51ee4f94a6d6c8f1c15da
+ }
+}

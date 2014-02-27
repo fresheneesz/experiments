@@ -1,0 +1,10 @@
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\bin\Debug\Tasky.Core.Anroid.dll
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\bin\Debug\Tasky.Core.Anroid.pdb
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\bin\Debug\Tasky.Core.Anroid.dll.mdb
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\bin\Debug\Tasky.Core.Anroid.apk
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\bin\Debug\Tasky.Core.Anroid-Signed.apk
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\obj\Debug\Tasky.Core.Anroid.dll
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\obj\Debug\Tasky.Core.Anroid.pdb
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\obj\Debug\android\bin\Tasky.Core.Anroid.apk
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\obj\Debug\R.cs.flag
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\obj\Debug\uploadflags.txt

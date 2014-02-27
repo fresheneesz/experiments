@@ -1,0 +1,23 @@
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\gen\com\tests\test\R.java \
+ : C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\drawable\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\drawable-hdpi\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\drawable-hdpi\ic_launcher.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\drawable-ldpi\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\drawable-ldpi\ic_launcher.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\drawable-mdpi\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\drawable-mdpi\ic_launcher.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\drawable-xhdpi\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\drawable-xhdpi\ic_launcher.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\layout\main.xml \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\values\strings.xml \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\res\xml\config.xml \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\res\drawable\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\res\drawable-hdpi\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\res\drawable-hdpi\ic_launcher.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\res\drawable-ldpi\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\res\drawable-ldpi\ic_launcher.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\res\drawable-mdpi\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\res\drawable-mdpi\ic_launcher.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\res\drawable-xhdpi\icon.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\res\drawable-xhdpi\ic_launcher.png \
+C:\Users\billy\Desktop\Stuff\git\experiments\js\cordova\CordovaInside\android\bin\AndroidManifest.xml \

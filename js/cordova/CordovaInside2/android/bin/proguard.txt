@@ -1,0 +1,6 @@
+# view AndroidManifest.xml #generated:8
+-keep class com.test.CordovaInside2.MainActivity { <init>(...); }
+
+# view res/layout/main.xml #generated:5
+-keep class org.apache.cordova.CordovaWebView { <init>(...); }
+

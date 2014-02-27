@@ -1,0 +1,2 @@
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\TaskyAndroid\bin\Debug\TaskyAndroid.dll
+C:\Users\billy\Desktop\Stuff\git\experiments\xamarin\tasky\Tasky.Core\bin\Debug\Tasky.Core.Anroid.dll

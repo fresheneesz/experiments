@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Click Me!!!</string>
+	<string name="app_name">HelloWorld</string>
+    <string name="menu_search">Search the dictionary</string>
+
+</resources>
