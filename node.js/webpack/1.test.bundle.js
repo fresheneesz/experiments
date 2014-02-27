@@ -1,14 +1,1 @@
-webpackJsonp([1],{
-
-/***/ 2:
-/*!**************!*\
-  !*** ./b.js ***!
-  \**************/
-/***/ function(module, exports, require) {
-
-	console.log("test 2!")
-
-
-/***/ }
-
-})
+webpackJsonp([1],{3:function(){console.log("test 2!")}});

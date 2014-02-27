@@ -1,4 +1,5 @@
 require('./a')
+require('./c-same-as-a')
 
 console.log(moose)
 

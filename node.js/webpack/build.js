@@ -5,12 +5,12 @@ webpack({
     entry: "./test",
     output: {
         path: __dirname,
-        filename: "test.bundle"/*.[chunkhash]*/+".js",
-        pathinfo: true // do not use this in production
+        filename: "test.bundle"/*.[chunkhash]*/+".js"
+        //,pathinfo: true // do not use this in production
     },
     plugins: [
-      //new webpack.optimize.UglifyJsPlugin(),
-      //new webpack.optimize.DeduplicationPlugin()
+      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.optimize.DedupePlugin() // removes duplicate files - even if they have no logical connection
     ]
     
 }, function(err, stats) {
