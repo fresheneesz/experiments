@@ -31,6 +31,9 @@
         "urequire":"",
         "ursa":"",
         "webpack":"",
+        "raw-loader":"",
+        "css-loader":"",
+        "file-loader":"",
         "source-map-support":"",
         "source-map-index-generator":"",
         "mocha-lcov-reporter":""

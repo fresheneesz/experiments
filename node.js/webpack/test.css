@@ -1,0 +1,7 @@
+.blahclass {
+    color: blue;
+}
+
+body {
+    background-image: url(~file-loader!./7d2f514d8e903b6f97ed19c90c9c5b15.png)   
+}

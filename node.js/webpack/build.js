@@ -5,12 +5,13 @@ webpack({
     entry: "./test",
     output: {
         path: __dirname,
-        filename: "test.bundle"/*.[chunkhash]*/+".js"
+        filename: "test.bundle"/*.[chunkhash]*/+".js",
         //,pathinfo: true // do not use this in production
     },
     plugins: [
-      new webpack.optimize.UglifyJsPlugin(),
-      new webpack.optimize.DedupePlugin() // removes duplicate files - even if they have no logical connection
+      //new webpack.optimize.UglifyJsPlugin(),    // minify
+      new webpack.optimize.OccurenceOrderPlugin(/*preferEntry=*/true), // does .. something, and makes the entry chunk smaller (at the cost of making later chunks bigger)
+      new webpack.optimize.DedupePlugin()       // removes duplicate files - even if they have no logical connection
     ]
     
 }, function(err, stats) {
