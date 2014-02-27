@@ -1,0 +1,13 @@
+H:\billysFile\code\tests\xamarinCSharp\test\test\bin\Debug\test.dll
+H:\billysFile\code\tests\xamarinCSharp\test\test\bin\Debug\test.pdb
+H:\billysFile\code\tests\xamarinCSharp\test\test\bin\Debug\test.dll.mdb
+H:\billysFile\code\tests\xamarinCSharp\test\test\bin\Debug\test.test.apk
+H:\billysFile\code\tests\xamarinCSharp\test\test\bin\Debug\test.test-Signed.apk
+H:\billysFile\code\tests\xamarinCSharp\test\test\obj\Debug\test.dll
+H:\billysFile\code\tests\xamarinCSharp\test\test\obj\Debug\test.pdb
+H:\billysFile\code\tests\xamarinCSharp\test\test\obj\Debug\android\bin\test.test.apk
+H:\billysFile\code\tests\xamarinCSharp\test\test\obj\Debug\res\layout\main.xml
+H:\billysFile\code\tests\xamarinCSharp\test\test\obj\Debug\res\values\strings.xml
+H:\billysFile\code\tests\xamarinCSharp\test\test\obj\Debug\res\drawable\icon.png
+H:\billysFile\code\tests\xamarinCSharp\test\test\obj\Debug\R.cs.flag
+H:\billysFile\code\tests\xamarinCSharp\test\test\obj\Debug\uploadflags.txt

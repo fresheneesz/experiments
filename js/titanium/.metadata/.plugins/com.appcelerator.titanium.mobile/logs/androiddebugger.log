@@ -1,0 +1,55 @@
+Logger started at: Sunday, September 29, 2013 11:34:44 PM PDT
+Component: com.appcelerator.titanium.mobile
+Version: 1.0.0.1379026748
+[35:19.558] Sent: >21*1380522919558*version<
+[35:19.559] Recv: >1380522919558*1*3.0.0.1367525200<
+[35:19.563] Sent: >36*1380522919559*option*monitorXHR*true<
+[35:19.564] Recv: >1380522919559*!unknown option <monitorXHR><
+[35:19.564] Sent: >45*1380522919560*option*stepFiltersEnabled*false<
+[35:19.565] Recv: >1380522919560*!unknown option <stepFiltersEnabled><
+[35:19.566] Sent: >45*1380522919561*option*suspendOnFirstLine*false<
+[35:19.566] Recv: >1380522919561<
+[35:19.566] Sent: >46*1380522919562*option*suspendOnExceptions*false<
+[35:19.671] Recv: >1380522919562<
+[35:19.671] Sent: >41*1380522919563*option*suspendOnErrors*true<
+[35:19.936] Recv: >1380522919563<
+[35:19.937] Sent: >43*1380522919564*option*suspendOnKeywords*true<
+[35:19.937] Recv: >1380522919564<
+[35:19.937] Sent: >45*1380522919565*option*bypassConstructors*false<
+[35:19.937] Recv: >1380522919565*!unknown option <bypassConstructors><
+[35:19.938] Sent: >45*1380522919566*option*stepFiltersEnabled*false<
+[35:19.938] Recv: >1380522919566*!unknown option <stepFiltersEnabled><
+[35:19.938] Sent: >30*1380522919567*detailFormatters<
+[35:19.938] Recv: >1380522919567<
+[35:19.939] Sent: >53*1380522919568*breakpoint*create*app:/app.js*21*1*0**1<
+[35:20.66] Recv: >1380522919568*created<
+[35:20.66] Sent: >20*1380522919569*enable<
+[35:20.67] Recv: >resumed*start<
+[35:20.67] Recv: >1380522919569<
+[35:20.67] Recv: >scripts*created*1|ti:/webview.js|anonymous|1|1<
+[35:20.68] Recv: >scripts*created*2|ti:/bootstrap.js|anonymous|1|1<
+[35:20.68] Recv: >scripts*created*3|ti:/kroll.js|anonymous|1|1<
+[35:20.68] Recv: >scripts*created*4|ti:/properties.js|anonymous|1|1<
+[35:20.68] Recv: >scripts*created*5|ti:/events.js|anonymous|1|1<
+[35:20.68] Recv: >scripts*created*6|ti:/ui.js|anonymous|1|1<
+[35:20.68] Recv: >scripts*created*7|ti:/titanium.js|anonymous|1|1<
+[35:20.69] Recv: >scripts*created*8|ti:/tabgroup.js|anonymous|1|1<
+[35:20.69] Recv: >scripts*created*9|ti:/console.js|anonymous|1|1<
+[35:20.69] Recv: >scripts*created*10|ti:/path.js|anonymous|1|1<
+[35:20.69] Recv: >scripts*created*11|ti:/invoker.js|anonymous|1|1<
+[35:20.69] Recv: >scripts*created*12|ti:/tab.js|anonymous|1|1<
+[35:20.70] Recv: >scripts*created*13|ti:/url.js|anonymous|1|1<
+[35:20.70] Recv: >scripts*created*14|ti:/window.js|anonymous|1|1<
+[35:20.70] Recv: >scripts*created*15|ti:/listview.js|anonymous|1|1<
+[35:20.70] Recv: >scripts*created*16|ti:/module.js|anonymous|1|1<
+[35:20.328] Recv: >scripts*created*17|app:///app.js|anonymous|1|1<
+[35:20.403] Recv: >suspended*breakpoint*app:///app.js*21<
+[35:20.403] Sent: >20*1380522919570*frames<
+[35:20.403] Recv: >1380522919570*0|||app:///app.js|21|false|448|18<
+[35:20.703] Sent: >32*1380522919571*variables*frame[0]<
+[35:21.94] Recv: >1380522919571*this|global|o|[object global]*console|Object|wo|[object Object]*persistentObjects|Array|wo|[object Array]*label2|undefined|w|undefined*gc|Function||[Function]*win2|undefined|w|undefined*win1|Window|wo|[object Window]*tab1|Tab|wo|[object Tab]*tab2|undefined|w|undefined*label1|undefined|w|undefined*tabGroup|TabGroup|wo|[object TabGroup]<
+[35:39.71] Sent: >37*1380522919572*variables*frame[0].win1<
+[35:39.86] Recv: >1380522919572*windowSoftInputMode|undefined|w|undefined*bubbleParent|Boolean|w|true*touchEnabled|undefined|w|undefined*layout|undefined|w|undefined*backgroundSelectedImage|undefined|w|undefined*accessibilityLabel|undefined|w|undefined*tab|Tab|wo|[object Tab]*backgroundFocusedImage|undefined|w|undefined*_sourceUrl|String|w|"app://app.js"*enabled|undefined|w|undefined*zIndex|undefined|w|undefined*backgroundPadding|undefined|w|undefined*right|undefined|w|undefined*title|String|w|"Tab 1"*parent|Tab|wo|[object Tab]*backgroundSelectedColor|undefined|w|undefined*backgroundColor|String|w|"#0fff"*backgroundFocusedColor|undefined|w|undefined*accessibilityHidden|undefined|w|undefined*_properties|Object|wo|[object Object]*bottom|undefined|w|undefined*focusable|undefined|w|undefined*backgroundRepeat|Boolean|w|false*height|undefined|w|undefined*modal|undefined|w|undefined*_module|undefined|w|undefined*left|undefined|w|undefined*softKeyboardOnFocus|undefined|w|undefined*borderWidth|undefined|w|undefined*backgroundGradient|u...1084<
+[36:0.941] Sent: >7**resume<
+[36:0.943] Recv: >resumed*resume<
+----------End of file----------

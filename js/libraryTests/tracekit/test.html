@@ -1,0 +1,19 @@
+
+<script src="tracekit.js"></script>
+<script>
+    TraceKit.report.subscribe(function(errorReport) {
+      console.log(errorReport.stack[0].line+'mo')
+        return true
+    });
+
+    function moo() {
+        try {
+          throw new Error('oops');
+        } catch (e) {
+          TraceKit.report(e); //error with stack trace gets normalized and sent to subscriber
+        }
+    }
+
+    moo()
+
+</script>

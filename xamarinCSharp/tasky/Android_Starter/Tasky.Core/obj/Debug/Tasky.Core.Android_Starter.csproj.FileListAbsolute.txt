@@ -1,0 +1,10 @@
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\bin\Debug\Tasky.Core.Anroid.dll
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\bin\Debug\Tasky.Core.Anroid.pdb
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\bin\Debug\Tasky.Core.Anroid.dll.mdb
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\bin\Debug\Tasky.Core.Anroid.apk
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\bin\Debug\Tasky.Core.Anroid-Signed.apk
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\obj\Debug\Tasky.Core.Anroid.dll
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\obj\Debug\Tasky.Core.Anroid.pdb
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\obj\Debug\android\bin\Tasky.Core.Anroid.apk
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\obj\Debug\R.cs.flag
+H:\billysFile\code\tests\xamarinCSharp\tasky\Android_Starter\Tasky.Core\obj\Debug\uploadflags.txt

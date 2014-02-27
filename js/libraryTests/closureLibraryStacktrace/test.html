@@ -1,0 +1,13 @@
+
+<script src="stacktrace.js"></script>
+<script>
+    function moo() {
+        var stack = (new Error()).stack
+        var trace = goog.testing.stacktrace.canonicalize(stack)
+         //Output however you want!
+         console.log(trace);
+    }
+
+    moo()
+
+</script>

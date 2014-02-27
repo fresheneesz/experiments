@@ -1,0 +1,17 @@
+See https://github.com/rogerwang/node-webkit for details
+
+To run
+
+1. Find where nw.exe is installed (I put it in C:/node-webkit)
+2. (for windows) Drag the folder containing the package.json onto nw.exe 
+
+To build a single-file you can run in the same way as the folder:
+
+1. create a zip file of the source files (main.html, package.json, and any supporting js)
+2. rename it to have the extension .nw
+
+To build an executable (which still requires supporing dlls):
+
+1. Build a single-file nw
+2. copy /b nw.exe+yourAppName.nw yourAppName.exe 
+3. include all files that nw.exe is installed with (except nw.exe itself) in the same folder

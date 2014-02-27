@@ -1,0 +1,26 @@
+
+// this sets the background color of the master UIView (when there are no windows/tab groups on it)
+Titanium.UI.setBackgroundColor('#000');
+
+var enbox = Titanium.UI.createWindow({  
+    title:'Enbox',
+    backgroundColor:'#fff'
+});
+
+var list =  Titanium.UI.createTableView({
+	data:[
+		{title:"Row 1 - simple row"},
+		{title:"Row 2 -  with child", hasChild:true},
+		{title:"Row 3 -  with detail", hasDetail:true},
+		{title:"Row 4 -  with check", hasCheck:true},
+		{title:"Row 5 -  red background", backgroundColor:"#f00"}
+	]	
+});
+
+
+enbox.add(list)
+enbox.open()
+
+function enboxRow() {
+	return {className: 'enboxRow', title:"Row 1 - simple row"},
+}

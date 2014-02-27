@@ -1,0 +1,113 @@
+/*
+// this sets the background color of the master UIView (when there are no windows/tab groups on it)
+Titanium.UI.setBackgroundColor('#000');
+
+// create tab group
+var tabGroup = Titanium.UI.createTabGroup();
+
+
+//
+// create base UI tab and root window
+//
+var win1 = Titanium.UI.createWindow({  
+    title:'Tab 1',
+    backgroundColor:'#fff'
+});
+var tab1 = Titanium.UI.createTab({  
+    icon:'KS_nav_views.png',
+    title:'Tab 1',
+    window:win1
+});
+
+var label1 = Titanium.UI.createLabel({
+	color:'#999',
+	text:'I am Window 1',
+	font:{fontSize:20,fontFamily:'Helvetica Neue'},
+	textAlign:'center',
+	width:'auto'
+});
+
+win1.add(label1);
+
+//
+// create controls tab and root window
+//
+var win2 = Titanium.UI.createWindow({  
+    title:'Tab 2',
+    backgroundColor:'#fff'
+});
+var tab2 = Titanium.UI.createTab({  
+    icon:'KS_nav_ui.png',
+    title:'Tab 2',
+    window:win2
+});
+
+var label2 = Titanium.UI.createLabel({
+	color:'#999',
+	text:'I am Window 2',
+	font:{fontSize:20,fontFamily:'Helvetica Neue'},
+	textAlign:'center',
+	width:'auto'
+});
+
+win2.add(label2);
+
+
+
+//
+//  add tabs
+//
+tabGroup.addTab(tab1);  
+tabGroup.addTab(tab2);  
+
+
+// open tab group
+tabGroup.open();
+*/
+
+
+var MASlidingMenu = require('/lib/MASlidingMenu');
+var HomeView = require('/ui/HomeView');
+var SampleView = require('/ui/SampleView');
+var MenuView = require('/ui/MenuView');
+
+var home = new HomeView();
+
+var settings = new SampleView();
+
+// Each row with a view property when clicked will change to that view (any view works except tabgroups and windows)
+// If the row does not have a view property, but the switch event still fires
+var data = [
+	{ title:'Home', hasDetail:true, view: home },
+	{ title:'Sample', hasDetail:true, view: settings },
+	{ title:'Button' }
+];
+
+var menu = new MenuView({
+	rowData: data
+});
+
+var slidingMenu = new MASlidingMenu({
+	left: menu, // the menu... only accepts a tableview
+	draggable: true // set false to only use the API to open / close
+});
+slidingMenu.open();
+
+// event fired when user selects a view from the nav
+slidingMenu.addEventListener('buttonclick', function(e) {
+	if (e.index === 2) {
+		alert('You clicked on Button');
+	}
+});
+
+// event fired when user selects a view from the nav
+slidingMenu.addEventListener('switch', function(e) {
+	//alert(e.menuRow);
+	//alert(e.index);
+	//alert(e.view); // This is the new view your switching to
+});
+
+// event fired while user is dragging the view to expose the menu
+slidingMenu.addEventListener('sliding', function(e) {
+	//alert(e.distance);
+});

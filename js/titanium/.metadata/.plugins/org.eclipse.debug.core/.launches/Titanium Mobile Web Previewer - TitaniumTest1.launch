@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.appcelerator.titanium.mobileweb.ui.preview.launchConfigurationType">
+<stringAttribute key="ATTR_PROJECT_NAME" value="TitaniumTest1"/>
+<stringAttribute key="browserExecutable" value="C:\Program Files\Mozilla Firefox\firefox.exe"/>
+<booleanAttribute key="browser_use_external" value="true"/>
+<booleanAttribute key="browser_use_global" value="false"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/TitaniumTest1"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="4"/>
+</listAttribute>
+<stringAttribute key="process_factory_id" value="com.appcelerator.titanium.ui.logLevelFilteringProcessFactory"/>
+</launchConfiguration>

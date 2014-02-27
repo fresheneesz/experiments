@@ -1,0 +1,73 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'node-sdl' ]
+2 info using npm@1.3.23
+3 info using node@v0.10.21
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 warn package.json crypto@0.0.3 crypto is also the name of a node core module.
+6 warn package.json traits@0.4.0 No repository field.
+7 warn package.json sleep@1.1.0 'repositories' (plural) Not supported.
+7 warn package.json Please pick one as the 'repository' field
+8 warn package.json source-map-support@0.1.8 No repository field.
+9 verbose cache add [ 'node-sdl', null ]
+10 verbose cache add name=undefined spec="node-sdl" args=["node-sdl",null]
+11 verbose parsed url { protocol: null,
+11 verbose parsed url   slashes: null,
+11 verbose parsed url   auth: null,
+11 verbose parsed url   host: null,
+11 verbose parsed url   port: null,
+11 verbose parsed url   hostname: null,
+11 verbose parsed url   hash: null,
+11 verbose parsed url   search: null,
+11 verbose parsed url   query: null,
+11 verbose parsed url   pathname: 'node-sdl',
+11 verbose parsed url   path: 'node-sdl',
+11 verbose parsed url   href: 'node-sdl' }
+12 silly lockFile 12b89c47-node-sdl node-sdl
+13 verbose lock node-sdl C:\Users\btbot\AppData\Roaming\npm-cache\12b89c47-node-sdl.lock
+14 silly lockFile 12b89c47-node-sdl node-sdl
+15 silly lockFile 12b89c47-node-sdl node-sdl
+16 verbose addNamed [ 'node-sdl', '' ]
+17 verbose addNamed [ null, '*' ]
+18 silly lockFile a3d4d106-node-sdl node-sdl@
+19 verbose lock node-sdl@ C:\Users\btbot\AppData\Roaming\npm-cache\a3d4d106-node-sdl.lock
+20 silly addNameRange { name: 'node-sdl', range: '*', hasData: false }
+21 verbose url raw node-sdl
+22 verbose url resolving [ 'https://registry.npmjs.org/', './node-sdl' ]
+23 verbose url resolved https://registry.npmjs.org/node-sdl
+24 info trying registry request attempt 1 at 15:03:41
+25 http GET https://registry.npmjs.org/node-sdl
+26 http 404 https://registry.npmjs.org/node-sdl
+27 silly registry.get cb [ 404,
+27 silly registry.get   { date: 'Wed, 26 Feb 2014 23:03:45 GMT',
+27 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B)',
+27 silly registry.get     'content-type': 'application/json',
+27 silly registry.get     via: '1.1 varnish',
+27 silly registry.get     'cache-control': 'max-age=0',
+27 silly registry.get     'content-length': '52',
+27 silly registry.get     'accept-ranges': 'bytes',
+27 silly registry.get     age: '0',
+27 silly registry.get     'x-served-by': 'cache-v36-ASH, cache-lax1426-LAX',
+27 silly registry.get     'x-cache': 'MISS, MISS',
+27 silly registry.get     'x-cache-hits': '0, 0',
+27 silly registry.get     'x-timer': 'S1393455825.648596525,VS0,VS-170,VE-146,VE89',
+27 silly registry.get     'keep-alive': 'timeout=10, max=50',
+27 silly registry.get     connection: 'Keep-Alive' } ]
+28 silly lockFile a3d4d106-node-sdl node-sdl@
+29 silly lockFile a3d4d106-node-sdl node-sdl@
+30 error 404 'node-sdl' is not in the npm registry.
+30 error 404 You should bug the author to publish it
+30 error 404
+30 error 404 Maybe try 'npm search sdl'
+30 error 404
+30 error 404 Note that you can also install from a
+30 error 404 tarball, folder, or http url, or git url.
+31 error System Windows_NT 6.1.7601
+32 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "node-sdl"
+33 error cwd F:\billysFile\code\tests\node.js\openGl
+34 error node -v v0.10.21
+35 error npm -v 1.3.23
+36 error code E404
+37 verbose exit [ 1, true ]

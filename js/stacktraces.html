@@ -1,0 +1,17 @@
+
+<script src="tracekit.js"></script>
+<script>
+
+    function moo() {
+        try {
+          throw new Error('oops');
+        } catch (e) {
+          for(var n in e) {
+              console.log(n+':  '+e[n])
+          }
+        }
+    }
+
+    moo()
+
+</script>

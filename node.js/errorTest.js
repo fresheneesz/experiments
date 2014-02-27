@@ -190,7 +190,40 @@ mainD.run(function() {Fiber(function() {
 	} catch(e) {
 		log("Asynchronous exception, sometimes wait: "+e);
 	}
-	
-	
+
+    var d2 = domain.create();
+	d2.on('error', function(err) {
+	    log("Did you forget about this?: "+ err);
+	});
+	var future2 = new Future;
+	d2.run(function() {
+		setTimeout((function() {
+			try {
+				throw new Error("wait for me?");
+			} catch(e) {
+				future2.throw(e);
+			}
+		}), 0);
+	});
+
+    var dA = domain.create();
+    dA.on('error', function(err) {
+	    console.log("dA: "+ err);
+	});
+    dA.run(function() {
+	    var dB = domain.create();
+        dB.on('error', function(err) {
+            console.log('dB')
+            setTimeout(function() {
+                throw err
+            }, 0)
+        });
+        dB.run(function() {
+            setTimeout(function() {
+                throw 'moo'
+            },0)
+        });
+	});
+
 	
 }).run()});
