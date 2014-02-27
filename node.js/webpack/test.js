@@ -1,3 +1,5 @@
+var path = require('path')
+
 require('./a')
 require('./c-same-as-a')
 var text = require('raw-loader!./test.txt')  // raw-loader! references the raw-loader module (in node_modules)
@@ -5,7 +7,7 @@ var text = require('raw-loader!./test.txt')  // raw-loader! references the raw-l
 console.log(moose) //global from module ./a
 console.log(text)
 
-
+console.log(path.resolve("./whatever"))
 
 setTimeout(function() {
     require.ensure(['./b', 'css-loader!./test.css'], function() {
