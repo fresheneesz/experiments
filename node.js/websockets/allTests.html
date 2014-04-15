@@ -1,0 +1,22 @@
+
+<script>
+
+console.log("WEFFIOWFWJEOJIF")
+var ws = new WebSocket('ws://localhost:8080/', 'echo-protocol')
+ws.onopen = function() {
+    console.log('connected')
+    ws.send("something")
+    setTimeout(function(){ 
+        ws.send("something2")
+    },1000)
+}
+
+ws.onerror = function(e) {
+    console.log("error: "+e)
+}
+
+ws.onmessage = function(e) {
+    console.log("message: "+ e.data)
+}
+
+</script>

@@ -1,0 +1,14 @@
+<script src="script.min.js"></script>
+<script>
+    $script('test.js', 'cat')
+
+    $script.ready('cat', function() {
+      console.log(cat)
+    })
+
+
+    $script('test.js', 'cat')
+    $script.ready('cat', function() {
+      console.log(cat)
+    })
+</script>

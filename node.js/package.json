@@ -34,6 +34,7 @@
         "raw-loader":"",
         "css-loader":"",
         "file-loader":"",
+        "enhanced-require":"",
         "source-map-support":"",
         "source-map-index-generator":"",
         "mocha-lcov-reporter":""

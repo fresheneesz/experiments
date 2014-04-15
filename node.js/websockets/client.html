@@ -1,0 +1,21 @@
+<script>
+
+var ws = new WebSocket('ws://localhost:8080/', 'a')
+ws.onopen = function() {
+	console.log('open')	
+	ws.send('fuck you')
+}
+
+ws.onerror = function(e) {
+	console.log(e)	
+}
+
+ws.onmessage = function(m) {
+	console.log(m.data)
+}	
+
+ws.onclose = function() {
+    console.log('closed')   
+}
+
+</script>
